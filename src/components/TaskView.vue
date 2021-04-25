@@ -6,55 +6,27 @@
           <div class="card-container">
             <div class="row">
               <div class="col-50">
-                <h3>Billing Address</h3>
-                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-                <input type="text" id="fname" v-model="fullname" />
-                <label for="email"><i class="fa fa-envelope"></i> Email</label>
-                <input type="text" id="email" v-model="userEmail" />
-                <label for="adr"
-                  ><i class="fa fa-address-card-o"></i> Address</label
-                >
-                <input type="text" id="adr" v-model="address" />
-                <label for="city"><i class="fa fa-institution"></i> City</label>
-                <input type="text" id="city" v-model="city" />
+                <h3>Task View</h3>
 
-                <div class="row">
-                  <div class="col-50">
-                    <label for="state">State</label>
-                    <input type="text" id="state" v-model="state" />
-                  </div>
-                  <div class="col-50">
-                    <label for="zip">Zip</label>
-                    <input type="text" id="zip" v-model="zip" />
-                  </div>
-                </div>
-              </div>
+                <label for="fname" > Website </label>
+                <select v-model="website">
+                  <option v-for="(sites, pos) in sitelist" :value="sites" :key="pos"> {{sites}} </option>
+                </select>  
+                
+                <label for="email"><i class="fa fa-user"/> Profile </label>
+                <select v-model="selectedProfile">
+                  <option v-for="(profs, pos) in billingProfiles" :value="profs" :key="pos"> {{profs.cardName}} </option>
+                </select>  
 
-              <div class="col-50">
-                <h3>Payment</h3>
-                <label for="fname">Accepted Cards</label>
-                <div class="icon-container">
-                  <i class="fa fa-cc-visa" style="color:navy;"></i>
-                  <i class="fa fa-cc-amex" style="color:blue;"></i>
-                  <i class="fa fa-cc-mastercard" style="color:red;"></i>
-                  <i class="fa fa-cc-discover" style="color:orange;"></i>
-                </div>
-                <label for="cname">Name on Card</label>
-                <input type="text" id="cname" v-model="cardName" />
-                <label for="ccnum">Credit card number</label>
-                <input id="ccnum" v-model="cardNumber" />
-                <label for="expmonth">Exp Month</label>
-                <input id="expmonth" v-model="expMonth" />
-                <div class="row">
-                  <div class="col-50">
-                    <label for="expyear">Exp Year</label>
-                    <input id="expyear" v-model="expYear" />
-                  </div>
-                  <div class="col-50">
-                    <label for="cvv">CVV</label>
-                    <input id="cvv" v-model="cvv" />
-                  </div>
-                </div>
+                <label for="adr"> ATC Link </label>
+                <input type="text" id="adr" v-model="atcLink"/>
+
+                <label for="adr"> Size </label>
+                <input type="text" id="adr" v-model="selectedsize"/>
+
+                <label for="city"> Product </label>
+                <input type="text" id="city" v-model="selectedproduct" v-on:click="createTask"/>
+
               </div>
             </div>
 
@@ -62,7 +34,7 @@
               type="submit"
               value="Save Card"
               class="save-btn"
-              @click="saveBilling"
+              @click="showMessage"
             />
             {{ message }}
           </div>
@@ -81,25 +53,50 @@ export default class TaskView extends Vue {
   readonly $appDB!: FirebaseFirestore;
   private message = "";
   private uid = "none";
-  private fullname = "";
-  private userEmail = "";
-  private address = "";
-  private city = "";
-  private state = "";
-  private zip = "";
-  private cardName = "";
-  private cardNumber = "";
-  private expMonth = "";
-  private expYear = "";
-  private cvv = "";
   private billingProfiles: any[] = [];
+  private selectedProfile = {};
+  private sitelist: any[] = ['Kith', 'Dead Stock', 'Shoe Palace', 'Shop Nice Kicks']
+  private website = "";
+  private selectedsize = "";
+  private atcLink = "";
+  private selectedproduct = "";
 
   showMessage(m: string): void {
-    this.message = m;
+    this.message = this.createTask.toString();
+    console.log("SELECTED PROFILE: ", this.selectedProfile)
     setTimeout(() => {
       // Auto disappear after 5 seconds
       this.message = "";
     }, 5000);
+  }
+
+  makeid (): string {
+    var result = [];
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 5; i++ ) {
+      result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+    }
+    return result.join('');
+  }
+
+  createTask () {
+    var TID:string = this.makeid()
+
+    var obj: any = {  }
+
+    var t = {
+      site: this.website,
+      profile: this.selectedProfile,
+      size: this.selectedsize,
+      item: this.selectedproduct,
+      atc: this.atcLink,
+      status: "idle..."
+    }
+
+    obj[TID] = t;
+
+    return obj;
   }
 
   mounted() {
@@ -112,14 +109,14 @@ export default class TaskView extends Vue {
             name: billingInfo.name,
             email: billingInfo.email,
             address: billingInfo.address,
-            // city: this.city,
-            // state: this.state,
-            // zip: this.zip,
+            city: billingInfo.city,
+            state: billingInfo.state,
+            zip: billingInfo.zip,
             cardName: billingInfo.cardName,
-            // cardNumber: this.cardNumber,
-            // expMonth: this.expMonth,
-            // expYear: this.expYear,
-            // cvv: this.cvv,
+            cardNumber: billingInfo.cardNumber,
+            expMonth: billingInfo.expMonth,
+            expYear: billingInfo.expYear,
+            cvv: billingInfo.cvv,
           });
         }
       });

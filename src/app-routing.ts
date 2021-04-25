@@ -34,13 +34,13 @@ const myRoutes: Array<RouteConfig> = [
   {
     name: "AddCard",
     path: "/addCard",
-    component: TaskView,
+    component: AddCard,
   },
 
   {
     name: "TaskView",
     path: "/taskView",
-    component: AddCard,
+    component: TaskView,
   },
 ];
 

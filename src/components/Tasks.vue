@@ -60,30 +60,30 @@ export default class Billing extends Vue {
   private uid = "none";
   private billingProfiles: any[] = [];
 
-  mounted() {
-    this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
-      this.billingProfiles.splice(0);
-      qs.forEach((qds) => {
-        if (qds.exists) {
-          const billingInfo = qds.data();
-          this.billingProfiles.push({
-            name: billingInfo.name,
-            email: billingInfo.email,
-            address: billingInfo.address,
-            // city: this.city,
-            // state: this.state,
-            // zip: this.zip,
-            cardName: billingInfo.cardName,
-            // cardNumber: this.cardNumber,
-            // expMonth: this.expMonth,
-            // expYear: this.expYear,
-            // cvv: this.cvv,
-          });
-        }
-      });
-    });
-    console.log("logs: ", this.billingProfiles);
-  }
+  // mounted() {
+  //   this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
+  //     this.billingProfiles.splice(0);
+  //     qs.forEach((qds) => {
+  //       if (qds.exists) {
+  //         const billingInfo = qds.data();
+  //         this.billingProfiles.push({
+  //           name: billingInfo.name,
+  //           email: billingInfo.email,
+  //           address: billingInfo.address,
+  //           city: billingInfo.city,
+  //           state: billingInfo.state,
+  //           zip: billingInfo.zip,
+  //           cardName: billingInfo.cardName,
+  //           cardNumber: billingInfo.cardNumber,
+  //           expMonth: billingInfo.expMonth,
+  //           expYear: billingInfo.expYear,
+  //           cvv: billingInfo.cvv,
+  //         });
+  //       }
+  //     });
+  //   });
+  //   console.log("logs: ", this.billingProfiles);
+  // }
 }
 </script>
 
