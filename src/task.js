@@ -1,12 +1,16 @@
 // const puppeteer = require('puppeteer');
 var userAgent = require('user-agents');
 const puppeteer = require('puppeteer-extra');
+const FirebaseFirestore = require ("@firebase/firestore-types");
+// import firebase from "firebase/app";
 
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
-const goBot = async (website, link, billing, size, item) => {
+const goBot = async (website, atclink, billing, size, item) => {
+
+    // import { FirebaseFirestore } from "@firebase/firestore-types";
 
     const browser = await puppeteer.launch({
         headless: false,
@@ -22,26 +26,27 @@ const goBot = async (website, link, billing, size, item) => {
     // deadstock atc
     var link1 = "https://deadstock.ca/cart/add?id=32986540933205";
 
-    site = (website) => {
-        if (website == "kith") {
-            return "https://kith.com"
-        }
-
-        if (website == "deadstock") {
-            return "https://deadstock.ca"
-        }
-
-        if (website == "shopnicekicks") {
-            return "https://shopnicekicks.com"
-        }
-
-        if (website == "shoepalace") {
-            return "https://shoepalace.com"
-        }
+    
+    //select site link
+    if (website == "kith") {
+        site = "https://kith.com"
     }
 
+    if (website == "deadstock") {
+        site = "https://deadstock.ca"
+    }
 
-    await page.goto(link1);
+    if (website == "shopnicekicks") {
+        site = "https://shopnicekicks.com"
+    }
+
+    if (website == "shoepalace") {
+        site = "https://shoepalace.com"
+    }
+    
+
+
+    await page.goto(atclink);
     console.log("Adding to cart")
 
     //deadstock checkout element
@@ -57,7 +62,7 @@ const goBot = async (website, link, billing, size, item) => {
     let burnrubberCheckOut = '#your-shopping-cart > div.wrapper-container > main > form > div.cart-row > input';
 
     //go to checkout link
-    await page.goto(storeLink + '/checkout');
+    await page.goto(site + '/checkout');
     // await page.waitForSelector(burnrubberCheckOut);
     // await page.click(burnrubberCheckOut);
     // await page.waitForNavigation();
@@ -161,6 +166,23 @@ const goBot = async (website, link, billing, size, item) => {
     await frame4.type(secCode, '925', { delay: 100 });
 
     console.log("checking out!");
+
+    updateLeaderbaord = () => {
+        // $appDB.collection(`users/${this.uid}/checkouts`).add({
+        //     uid: "123",
+        //     item: item,
+        //     site: website
+        //     })
+        //   .then(() => {
+        //     this.showMessage(`Card saved successfully!`);
+        //   });
+        db.collection("cities").add({
+            name: "Tokyo",
+            country: "Japan"
+        });
+    }
+
+    updateLeaderbaord();
 
     //pay now
     await page.click(continueButton);

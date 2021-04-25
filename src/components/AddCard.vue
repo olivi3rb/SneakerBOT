@@ -128,7 +128,6 @@ export default class AddCard extends Vue {
 .vue-addCard .inner-block {
   margin-top: 10%;
   margin-left: 15%;
-
   width: 70%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

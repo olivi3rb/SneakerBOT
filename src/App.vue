@@ -8,6 +8,12 @@
         </a>
         <ul class="nav navbar-nav flex-row float-right">
           <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/billing">Billing</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link pr-3" to="/login">Sign in</router-link>
           </li>
           <li class="nav-item">
