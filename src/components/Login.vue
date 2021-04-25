@@ -69,7 +69,7 @@ export default class Login extends Vue {
       .signInWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {
         this.showMessage(`Login successful UID ${u.user?.uid}`);
-        this.$router.push({ name: "billing" }); 
+        this.$router.push({ path: "/billing" }); 
       })
       .catch((err: any) => {
         this.showMessage(`Unable to login ${err}`);
