@@ -27,11 +27,8 @@
               <td>{{c.address}}</td>
               <td>{{c.email}}</td>
               <td>
-                <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip"> Edit
-                 </button>
-                
-              <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(id)"> {{c}} Delete
-                </button>
+                <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip">Edit</button>
+                <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(id)">Delete</button>
               </td>
             </tr>
           </tbody>

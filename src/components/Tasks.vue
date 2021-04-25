@@ -1,6 +1,6 @@
 <template>
   <div class="container-lg">
-    <div class="table-responsive">
+    <div class="container">
       <div class="table-wrapper">
         <div class="table-title">
           <div class="row">
@@ -27,20 +27,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr  v-for="(c,pos) in taskInfo" :key="pos">
-              <td>{{c.cardName}}</td>
-              <td>Kith</td>
-              <td>Jordan 1</td>
-              <td>10.5</td>
-              <td>{{c.address}}</td>
-              <td>{{c.email}}</td>
+            <tr  v-for="(c,pos) in tasks" :key="pos">
+              <td>{{c.tid}}</td>
+              <td>{{c.site}}</td>
+              <td>{{c.item}}</td>
+              <td>{{c.size}}</td>
+              <td>{{c.profile.cardName}}</td>
+              <td>{{c.status}}</td>
               <td>
-                <a class="edit" title="Edit" data-toggle="tooltip"
-                  ><i class="material-icons">&#xE254;</i></a
-                >
-                <a class="delete" title="Delete" data-toggle="tooltip"
-                  ><i class="material-icons">&#xE872;</i></a
-                >
+                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                <a class="delete" title="Delete" data-toggle="tooltip" v-on:click="goBot(c)"><i class="material-icons">&#xE872;</i></a>
               </td>
             </tr>
           </tbody>
@@ -59,31 +55,48 @@ export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
   private uid = "none";
   private billingProfiles: any[] = [];
+  private tasks: any[] = [];
+  private userAgent = require('user-agents');
+  private puppeteer = require('puppeteer-extra');
+  private StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
-  // mounted() {
-  //   this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
-  //     this.billingProfiles.splice(0);
-  //     qs.forEach((qds) => {
-  //       if (qds.exists) {
-  //         const billingInfo = qds.data();
-  //         this.billingProfiles.push({
-  //           name: billingInfo.name,
-  //           email: billingInfo.email,
-  //           address: billingInfo.address,
-  //           city: billingInfo.city,
-  //           state: billingInfo.state,
-  //           zip: billingInfo.zip,
-  //           cardName: billingInfo.cardName,
-  //           cardNumber: billingInfo.cardNumber,
-  //           expMonth: billingInfo.expMonth,
-  //           expYear: billingInfo.expYear,
-  //           cvv: billingInfo.cvv,
-  //         });
-  //       }
-  //     });
-  //   });
-  //   console.log("logs: ", this.billingProfiles);
-  // }
+  goBot = async (taskObject: any) => {
+    console.log("running bot on: ", taskObject);
+
+    this.puppeteer.use(this.StealthPlugin());
+
+    const browser = await this.puppeteer.launch({
+        headless: false,
+        defaultViewport: null,
+        args: [ '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
+    });
+
+    const page = await browser.newPage();
+
+    // new user agent
+    await page.setUserAgent(this.userAgent.toString());
+  }
+
+  mounted() {
+    this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
+      this.tasks.splice(0);
+      qs.forEach((qds) => {
+        if (qds.exists) {
+          const taskinfo = qds.data();
+          this.tasks.push({
+            tid: taskinfo.tid,
+            site: taskinfo.site,
+            profile: taskinfo.profile,
+            size: taskinfo.size,
+            item: taskinfo.item,
+            atc: taskinfo.atc,
+            status: taskinfo.status,
+          });
+        }
+      });
+    });
+    console.log("tasks: ", this.tasks);
+  }
 }
 </script>
 

@@ -25,7 +25,7 @@
                 <input type="text" id="adr" v-model="selectedsize"/>
 
                 <label for="city"> Product </label>
-                <input type="text" id="city" v-model="selectedproduct" v-on:click="createTask"/>
+                <input type="text" id="city" v-model="selectedproduct"/>
 
               </div>
             </div>
@@ -34,7 +34,7 @@
               type="submit"
               value="Save Card"
               class="save-btn"
-              @click="showMessage"
+              @click="createTask"
             />
             {{ message }}
           </div>
@@ -62,8 +62,7 @@ export default class TaskView extends Vue {
   private selectedproduct = "";
 
   showMessage(m: string): void {
-    this.message = this.createTask.toString();
-    console.log("SELECTED PROFILE: ", this.selectedProfile)
+    this.message = m;
     setTimeout(() => {
       // Auto disappear after 5 seconds
       this.message = "";
@@ -80,12 +79,11 @@ export default class TaskView extends Vue {
     return result.join('');
   }
 
-  createTask () {
+  createTask (): void {
     var TID:string = this.makeid()
 
-    var obj: any = {  }
-
-    var t = {
+    var task = {
+      tid: TID,
       site: this.website,
       profile: this.selectedProfile,
       size: this.selectedsize,
@@ -94,12 +92,17 @@ export default class TaskView extends Vue {
       status: "idle..."
     }
 
-    obj[TID] = t;
-
-    return obj;
+    this.$appDB
+      .collection(`users/${this.uid}/tasks`)
+      .add(task)
+      .then(() => {
+        console.log("Task: ", task)
+        this.showMessage(`Task added successfully!`);
+      });
   }
 
   mounted() {
+
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.billingProfiles.splice(0);
       qs.forEach((qds) => {

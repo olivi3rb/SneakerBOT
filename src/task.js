@@ -1,16 +1,13 @@
 // const puppeteer = require('puppeteer');
 var userAgent = require('user-agents');
 const puppeteer = require('puppeteer-extra');
-const FirebaseFirestore = require ("@firebase/firestore-types");
-// import firebase from "firebase/app";
 
 // add stealth plugin and use defaults (all evasion techniques)
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-puppeteer.use(StealthPlugin());
 
 const goBot = async (website, atclink, billing, size, item) => {
 
-    // import { FirebaseFirestore } from "@firebase/firestore-types";
+    puppeteer.use(StealthPlugin());
 
     const browser = await puppeteer.launch({
         headless: false,
