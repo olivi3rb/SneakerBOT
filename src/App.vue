@@ -15,12 +15,6 @@
           </li>
         </ul>
       </div>
-      <br>
-      <div class="nav-bar">
-        <div>Tasks</div>
-        <div>Billing</div>
-        <div>Leaderboards</div>
-      </div>
     </nav>
 
     <!-- Main -->
@@ -37,13 +31,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import Login from './components/Login.vue';
 import Signup from "./components/Signup.vue";
 import Tasks from "./components/Tasks.vue";
+import AddCard from "./components/AddCard.vue";
 import Billing from "./components/Billing.vue";
 import {FirebaseFirestore} from "@firebase/firestore-types"
 
 
 @Component({
   components: {
-    Login, Signup, Tasks, Billing
+    Login, Signup, Tasks, AddCard, Billing
   },
 })
 export default class App extends Vue {
@@ -58,10 +53,6 @@ export default class App extends Vue {
 <style>
 .vue-main a{
     color:#6441a5 ;
-}
-
-.nav-bar {
-  width: 100%;
 }
 
 router-link{
