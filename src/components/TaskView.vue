@@ -77,7 +77,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 
 @Component
-export default class TaskEdit extends Vue {
+export default class TaskView extends Vue {
   readonly $appDB!: FirebaseFirestore;
   private message = "";
   private uid = "none";

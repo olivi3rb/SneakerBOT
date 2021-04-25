@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Login from "./components/Login.vue";
 import Signup from "./components/Signup.vue";
 import Tasks from "./components/Tasks.vue";
+import TaskView from "./components/TaskView.vue";
 import Billing from "./components/Billing.vue";
 import AddCard from "./components/AddCard.vue";
 Vue.use(VueRouter);
@@ -33,6 +34,12 @@ const myRoutes: Array<RouteConfig> = [
   {
     name: "AddCard",
     path: "/addCard",
+    component: TaskView,
+  },
+
+  {
+    name: "TaskView",
+    path: "/taskView",
     component: AddCard,
   },
 ];

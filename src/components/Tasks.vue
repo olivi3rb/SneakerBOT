@@ -8,7 +8,7 @@
             <div class="col-sm-4">
               <button type="button" class="btn btn-info add-new">Delete All</button> 
               <button type="button" class="btn btn-info add-new">Start All</button>
-              <router-link to="/addCard"><button type="button" class="btn btn-info add-new" 
+              <router-link to="/taskView"><button type="button" class="btn btn-info add-new" 
                 ><i class="fa fa-plus"></i> Add New
               </button></router-link>
             </div>
