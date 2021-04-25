@@ -1,72 +1,45 @@
 <template>
-<div class="vue-billing">
-    <div class="inner-block">
-<div class="row">
-  <div class="col-75">
-    <div class="card-container">
-      
-        <div class="row">
-          <div class="col-50">
-            <h3>Billing Address</h3>
-            <label for="fname"><i class="fa fa-user"></i> Full Name</label>
-            <input type="text" id="fname" v-model="fullname" >
-            <label for="email"><i class="fa fa-envelope"></i> Email</label>
-            <input type="text" id="email" v-model="userEmail" >
-            <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-            <input type="text" id="adr" v-model="address" >
-            <label for="city"><i class="fa fa-institution"></i> City</label>
-            <input type="text" id="city" v-model="city" >
-
-            <div class="row">
-              <div class="col-50">
-                <label for="state">State</label>
-                <input type="text" id="state" v-model="state" >
-              </div>
-              <div class="col-50">
-                <label for="zip">Zip</label>
-                <input type="text" id="zip" v-model="zip" >
-              </div>
+  <div class="container-lg">
+    <div class="table-responsive">
+      <div class="table-wrapper">
+        <div class="table-title">
+          <div class="row">
+            <div class="col-sm-8"><h2>My Cards</h2></div>
+            <div class="col-sm-4">
+              <router-link to="/addCard"><button type="button" class="btn btn-info add-new" 
+                ><i class="fa fa-plus"></i> Add New
+              </button></router-link> 
             </div>
           </div>
-
-          <div class="col-50">
-            <h3>Payment</h3>
-            <label for="fname">Accepted Cards</label>
-            <div class="icon-container">
-              <i class="fa fa-cc-visa" style="color:navy;"></i>
-              <i class="fa fa-cc-amex" style="color:blue;"></i>
-              <i class="fa fa-cc-mastercard" style="color:red;"></i>
-              <i class="fa fa-cc-discover" style="color:orange;"></i>
-            </div>
-            <label for="cname">Name on Card</label>
-            <input type="text" id="cname" v-model="cardName" >
-            <label for="ccnum">Credit card number</label>
-            <input id="ccnum" v-model="cardNumber" >
-            <label for="expmonth">Exp Month</label>
-            <input  id="expmonth" v-model="expMonth" >
-            <div class="row">
-              <div class="col-50">
-                <label for="expyear">Exp Year</label>
-                <input  id="expyear" v-model="expYear" >
-              </div>
-              <div class="col-50">
-                <label for="cvv">CVV</label>
-                <input  id="cvv" v-model="cvv" >
-              </div>
-            </div>
-          </div>
-          
         </div>
-
-        <input type="submit" value="Save Card" class="save-btn" @click="saveBilling">
-        {{message}}
-   
+        <table class="table table-bordered">
+          <thead>
+            <tr >
+              <th>Card Name</th>
+              <th>Address</th>
+              <th>E-mail</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  v-for="(c,pos) in cardInfo" :key="pos">
+              <td>{{c.cardName}}</td>
+              <td>{{c.address}}</td>
+              <td>{{c.email}}</td>
+              <td>
+                <a class="edit" title="Edit" data-toggle="tooltip"
+                  ><i class="material-icons">&#xE254;</i></a
+                >
+                <a class="delete" title="Delete" data-toggle="tooltip"
+                  ><i class="material-icons">&#xE872;</i></a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-
-</div>
-    </div>
-      </div>
 </template>
 
 <script lang="ts">
@@ -74,138 +47,121 @@ import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 
 @Component
-export default class Login extends Vue {
+export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
-   private message = "";
-    private uid = "none"
-    private fullname = "";
-    private userEmail = "";
-    private address ="";
-    private city ="";
-    private state ="";
-    private zip ="";
-    private cardName ="";
-    private cardNumber ="";
-    private expMonth ="";
-    private expYear ="";
-    private cvv ="";
+  private uid = "none";
+  private cardInfo: any[] = [];
 
-
-
-    showMessage(m: string): void {
-    this.message = m;
-    setTimeout(() => {
-      // Auto disappear after 5 seconds
-      this.message = "";
-    }, 5000);
-  }
-
-    saveBilling(): void {
-      console.log("oli")
-    this.$appDB
-      .collection(`users/${this.uid}/billing`)
-      .add({ name: this.fullname, email: this.userEmail, address: this.address, city: this.city,
-    state: this.state,
-  zip: this.zip,
-     cardName: this.cardName,
-     cardNumber: this.cardNumber,
-   expMonth: this.expMonth,
-    expYear: this.expYear,
- cvv: this.cvv })
-      .then(() => {
-        this.showMessage(`Card saved successfully!`);
-      })
+  mounted() {
+    this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
+      this.cardInfo.splice(0);
+      qs.forEach((qds) => {
+        if (qds.exists) {
+          const billingInfo = qds.data();
+          this.cardInfo.push({
+            name: billingInfo.name,
+            email: billingInfo.email,
+            address: billingInfo.address,
+            // city: this.city,
+            // state: this.state,
+            // zip: this.zip,
+            cardName: billingInfo.cardName,
+            // cardNumber: this.cardNumber,
+            // expMonth: this.expMonth,
+            // expYear: this.expYear,
+            // cvv: this.cvv,
+          });
+        }
+      });
+    });
+    console.log("logs: ", this.cardInfo);
   }
 }
 </script>
 
-<style scope >
+<style>
+.table-wrapper {
+  margin: auto;
+margin-top: 10%;
 
-.vue-billing .inner-block {
-  margin-top: 10%;
-    margin-left: 15%;
-  
-width: 70%;
+  width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
-
-.row {
-  display: -ms-flexbox; /* IE10 */
-  display: flex;
-  -ms-flex-wrap: wrap; /* IE10 */
-  flex-wrap: wrap;
-  margin: 0 -16px;
+.table-title {
+  padding-bottom: 10px;
+  margin: 0 0 10px;
 }
-
-.col-25 {
-  -ms-flex: 25%; /* IE10 */
-  flex: 25%;
+.table-title h2 {
+  margin: 6px 0 0;
+  font-size: 22px;
 }
-
-.col-50 {
-  -ms-flex: 50%; /* IE10 */
-  flex: 50%;
-}
-
-.col-75 {
-  -ms-flex: 75%; /* IE10 */
-  flex: 75%;
-}
-
-.col-25,
-.col-50,
-.col-75 {
-  padding: 0 16px;
-}
-
-.card-container {
-  background-color: #f2f2f2;
-  padding: 5px 20px 15px 20px;
-  border: 1px solid lightgrey;
-  border-radius: 3px;
-}
-
-input[type=text] {
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-label {
-  margin-bottom: 10px;
-  display: block;
-}
-
-.icon-container {
-  margin-bottom: 20px;
-  padding: 7px 0;
-  font-size: 24px;
-}
-
-.save-btn {
-  background-color: #6441a5;
-  color: white;
-  padding: 12px;
-  margin: 10px 0;
-  border: none;
-  width: 100%;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 17px;
-}
-
-.save-btn:hover {
-  background-color: #493077;
-}
-
-span.price {
+.table-title .add-new {
   float: right;
-  color: grey;
+  height: 30px;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: none;
+  min-width: 100px;
+  border-radius: 50px;
+  line-height: 13px;
+  background-color: #6441a5;
+}
+.table-title .add-new i {
+  margin-right: 4px;
+}
+table.table {
+  table-layout: fixed;
+}
+table.table tr th,
+table.table tr td {
+  border-color: #e9e9e9;
+}
+table.table th i {
+  font-size: 13px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+table.table th:last-child {
+  width: 100px;
+}
+table.table td a {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 5px;
+  min-width: 24px;
+}
+table.table td a.add {
+  color: #27c46b;
+}
+table.table td a.edit {
+  color: #ffc107;
+}
+table.table td a.delete {
+  color: #e34724;
+}
+table.table td i {
+  font-size: 19px;
+}
+table.table td a.add i {
+  font-size: 24px;
+  margin-right: -1px;
+  position: relative;
+  top: 3px;
+}
+table.table .form-control {
+  height: 32px;
+  line-height: 32px;
+  box-shadow: none;
+  border-radius: 2px;
+}
+table.table .form-control.error {
+  border-color: #f50000;
+}
+table.table td .add {
+  display: none;
 }
 </style>
