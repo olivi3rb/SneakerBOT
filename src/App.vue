@@ -15,6 +15,12 @@
           </li>
         </ul>
       </div>
+      <br>
+      <div class="nav-bar">
+        <div>Tasks</div>
+        <div>Billing</div>
+        <div>Leaderboards</div>
+      </div>
     </nav>
 
     <!-- Main -->
@@ -52,6 +58,10 @@ export default class App extends Vue {
 <style>
 .vue-main a{
     color:#6441a5 ;
+}
+
+.nav-bar {
+  width: 100%;
 }
 
 router-link{
