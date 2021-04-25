@@ -41,9 +41,9 @@
                 </div>
                 <label for="cname">Name on Card</label>
                 <input type="text" id="cname" v-model="cardName" />
-                <label for="ccnum">Credit card number</label>
-                <input id="ccnum" v-model="cardNumber" />
-                <label for="expmonth">Exp Month</label>
+                <label for="ccnum">Credit card number</label> <br>
+                <input id="ccnum" v-model="cardNumber" /> <br>
+                <label for="expmonth">Exp Month</label> <br>
                 <input id="expmonth" v-model="expMonth" />
                 <div class="row">
                   <div class="col-50">
@@ -100,7 +100,7 @@ export default class AddCard extends Vue {
       this.message = "";
     }, 5000);
   }
-
+//this.$
   saveBilling(): void {
     this.$appDB
       .collection(`users/${this.uid}/billing`)
@@ -116,6 +116,9 @@ export default class AddCard extends Vue {
         expMonth: this.expMonth,
         expYear: this.expYear,
         cvv: this.cvv,
+      })      
+      .then(() => {
+        this.$router.push({ path: "/billing" }); 
       })
       .then(() => {
         this.showMessage(`Card saved successfully!`);
