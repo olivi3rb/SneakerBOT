@@ -1,6 +1,6 @@
 <template>
   <div class="container-lg">
-    <div class="table-responsive">
+    <div class="container">
       <div class="table-wrapper">
         <div class="table-title">
           <div class="row">
@@ -22,17 +22,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr  v-for="(c,pos) in cardInfo" :key="pos">
+            <tr  v-for="c in cardInfo" :key="c.id">
               <td>{{c.cardName}}</td>
               <td>{{c.address}}</td>
               <td>{{c.email}}</td>
               <td>
-                <a class="edit" title="Edit" data-toggle="tooltip"
-                  ><i class="material-icons">&#xE254;</i></a
-                >
-                <a class="delete" title="Delete" data-toggle="tooltip"
-                  ><i class="material-icons">&#xE872;</i></a
-                >
+                <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip"> Edit
+                 </button>
+                
+              <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(id)"> {{c}} Delete
+                </button>
               </td>
             </tr>
           </tbody>
@@ -46,11 +45,17 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 
+
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
+
   private uid = "none";
+  private id = {};
+  private cardid= {};
   private cardInfo: any[] = [];
+
+
 
   mounted() {
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
@@ -74,7 +79,18 @@ export default class Billing extends Vue {
         }
       });
     });
-    console.log("logs: ", this.cardInfo);
+    console.log(this.cardInfo);
+  }
+
+
+
+  deleteCard(c: any) { console.log("olivier");
+
+this.$appDB.collection(`/billing`).doc(c).delete().then(() => {
+    console.log("Document successfully deleted!");
+}).catch((error) => {
+    console.error("Error removing document: ", error);
+}); console.log();
   }
 }
 </script>
@@ -83,7 +99,7 @@ export default class Billing extends Vue {
 .table-wrapper {
   margin: auto;
 margin-top: 10%;
-
+margin-left: 18%;
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
