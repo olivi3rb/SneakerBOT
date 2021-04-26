@@ -34,7 +34,9 @@
           <div class="card-container">
             <div class="row">
               <div class="col-50">
-                <h3>Billing Address</h3>
+                <h3>Billing Information</h3>
+                                <label for="fname"> Profile Name/ Username</label>
+                <input type="text"  v-model="profile" />
                 <label for="fname"><i class="fa fa-user"></i> Full Name</label>
                 <input type="text" id="fname" v-model="fullname" />
                 <label for="email"><i class="fa fa-envelope"></i> Email</label>
@@ -119,7 +121,15 @@ import { FirebaseAuth } from "@firebase/auth-types";
 @Component
 export default class AddCard extends Vue {
   readonly $appDB!: FirebaseFirestore;
+<<<<<<< Updated upstream
   readonly $appAuth!: FirebaseAuth;
+=======
+<<<<<<< HEAD
+     readonly $appAuth!: FirebaseAuth;
+=======
+  readonly $appAuth!: FirebaseAuth;
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
   private message = "";
   private uid = "none";
   private fullname = "";
@@ -130,7 +140,7 @@ export default class AddCard extends Vue {
   private city = "";
   private state = "";
   private country = "";
-  private bId = "";
+  private profile = "";
   private zip = "";
   private cardName = "";
   private cardNumber = "";
@@ -147,11 +157,19 @@ export default class AddCard extends Vue {
   }
   //this.$
   saveBilling(): void {
+<<<<<<< Updated upstream
     this.uid = this.$appAuth.currentUser?.uid ?? "none";
+=======
+<<<<<<< HEAD
+        this.uid = this.$appAuth.currentUser?.uid ?? "none";
+=======
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
     this.$appDB
       .collection(`users/${this.uid}/billing`)
       .add({
-        billingId: this.bId,
+        profile: this.profile,
         name: this.fullname,
         email: this.userEmail,
         address: this.addressone,

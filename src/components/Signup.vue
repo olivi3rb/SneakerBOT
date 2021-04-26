@@ -22,11 +22,11 @@
           />
         </div>
 
-        <router-link to="/tasks">
+  
           <button class="btn btn-dark btn-lg btn-block" @click="createAccount">
             Sign Up
           </button>
-        </router-link>
+
 
         <p class="already-registered text-center">
           Already registered?

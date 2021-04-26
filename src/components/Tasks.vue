@@ -92,7 +92,15 @@ import { FirebaseAuth } from "@firebase/auth-types";
 @Component
 export default class Tasks extends Vue {
   readonly $appDB!: FirebaseFirestore;
+<<<<<<< Updated upstream
   readonly $appAuth!: FirebaseAuth;
+=======
+<<<<<<< HEAD
+   readonly $appAuth!: FirebaseAuth;
+=======
+  readonly $appAuth!: FirebaseAuth;
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];

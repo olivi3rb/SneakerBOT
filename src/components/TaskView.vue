@@ -90,11 +90,26 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 import { FirebaseAuth } from "@firebase/auth-types";
+<<<<<<< Updated upstream
 
 @Component
 export default class TaskView extends Vue {
   readonly $appDB!: FirebaseFirestore;
   readonly $appAuth!: FirebaseAuth;
+=======
+<<<<<<< HEAD
+@Component
+export default class TaskView extends Vue {
+  readonly $appDB!: FirebaseFirestore;
+     readonly $appAuth!: FirebaseAuth;
+=======
+
+@Component
+export default class TaskView extends Vue {
+  readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
   private message = "";
   private uid = "none";
   private billingProfiles: any[] = [];
@@ -128,6 +143,7 @@ export default class TaskView extends Vue {
     return result.join("");
   }
   createTask(): void {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     var TID: string = this.makeid();
     var task = {
       tid: TID,
@@ -153,7 +169,14 @@ export default class TaskView extends Vue {
 
   mounted() {
     this.uid = this.$appAuth.currentUser?.uid ?? "none";
+<<<<<<< Updated upstream
     console.log("THIS UID:", this.uid)
+=======
+<<<<<<< HEAD
+=======
+    console.log("THIS UID:", this.uid)
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.billingProfiles.splice(0);
       qs.forEach((qds) => {

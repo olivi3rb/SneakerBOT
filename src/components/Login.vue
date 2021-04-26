@@ -23,14 +23,14 @@
             />
           </div>
 
-          <router-link to="/tasks"
+   
             ><button
               class="btn btn-dark btn-lg btn-block"
               @click="authenticate"
             >
               Sign In
-            </button></router-link
-          >
+            </button>
+       
 
           <p class="create-account text-center">
             Or
@@ -56,6 +56,7 @@ import { UserCredential } from "@firebase/auth-types";
 @Component
 export default class Login extends Vue {
   readonly $appAuth!: FirebaseAuth;
+    private uid = "none";
   private message = "";
   private userEmail = "";
   private userPassword = "";
@@ -65,7 +66,7 @@ export default class Login extends Vue {
   }
 
   authenticate(): void {
-    console.log("olivier");
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appAuth
       .signInWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {

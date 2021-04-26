@@ -84,12 +84,27 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 import { FirebaseAuth } from "@firebase/auth-types";
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
 
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
+<<<<<<< Updated upstream
   readonly $appAuth!: FirebaseAuth;
+=======
+<<<<<<< HEAD
+   readonly $appAuth!: FirebaseAuth;
+=======
+  readonly $appAuth!: FirebaseAuth;
+>>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
+>>>>>>> Stashed changes
   private uid = "none";
   private id = {};
   private cardid = {};
@@ -141,17 +156,7 @@ export default class Billing extends Vue {
     });
   }
 
-  makeid(): string {
-    var result = [];
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 5; i++) {
-      result.push(
-        characters.charAt(Math.floor(Math.random() * charactersLength))
-      );
-    }
-    return result.join("");
-  }
+
 }
 </script>
 

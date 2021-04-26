@@ -45,6 +45,7 @@ export default class App extends Vue {
   readonly $appDB!: FirebaseFirestore;
 
   mounted(): void {
+    
     console.log("API Key", this.$appDB.app.options_.apiKey);
   }
 }
