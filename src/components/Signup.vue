@@ -39,8 +39,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Tasks from "./components/Tasks.vue";
-import Login from "./components/Login.vue";
 import { FirebaseAuth } from "@firebase/auth-types";
 import { UserCredential } from "@firebase/auth-types";
 
@@ -56,13 +54,13 @@ export default class Signup extends Vue {
       .createUserWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {
         this.showMessage(`User create UID ${u.user?.uid}`);
+        console.log(`User create UID ${u.user?.uid}`);
         // In createAccount()
-        this.$router.push({ path: "/billing" });
+        this.$router.push({ path: "/login" });
       })
       .catch((err: any) => {
         this.showMessage(`Unable to create account ${err}`);
       });
-    console.log("olivier");
   }
 
   showMessage(m: string): void {
