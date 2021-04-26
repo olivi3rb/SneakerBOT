@@ -32,7 +32,7 @@
 
             <input
               type="submit"
-              value="Save Card"
+              value="Add Task"
               class="save-btn"
               @click="createTask"
             />
