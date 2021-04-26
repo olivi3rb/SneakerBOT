@@ -3,15 +3,17 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Login from "./components/Login.vue";
 import Signup from "./components/Signup.vue";
 import Tasks from "./components/Tasks.vue";
-import TaskView from "./components/TaskView.vue";
 import Billing from "./components/Billing.vue";
 import AddCard from "./components/AddCard.vue";
+import EditCard from "./components/EditCard.vue";
+import TaskView from "./components/TaskView.vue";
+import Leaderboard from "./components/Leaderboard.vue";
 Vue.use(VueRouter);
 
 const myRoutes: Array<RouteConfig> = [
   {
-    name: "login",
-    path: "/login",
+    name: "",
+    path: "",
     component: Login,
   },
   {
@@ -38,9 +40,21 @@ const myRoutes: Array<RouteConfig> = [
   },
 
   {
+    name: "EditCard",
+    path: "/editCard",
+    component: EditCard,
+  },
+
+  {
     name: "TaskView",
-    path: "/taskView",
+    path: "/taskview",
     component: TaskView,
+  },
+
+  {
+    name: "Leaderboard",
+    path: "/leaderboard",
+    component: Leaderboard,
   },
 ];
 
