@@ -1,6 +1,31 @@
 <template>
-  <div class="vue-addCard">
-    <div class="inner-block">
+  <div class="container">
+    <nav
+      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand float-left" href="#">
+          SNK-Y-BOT
+        </a>
+
+        <ul class="nav navbar-nav flex-row float-right">
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/billing"
+              >Billing</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/leaderboard"
+              >Leaderboard</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="table-wrapper">
       <div class="row">
         <div class="col-75">
           <div class="card-container">
@@ -41,9 +66,9 @@
                 </div>
                 <label for="cname">Name on Card</label>
                 <input type="text" id="cname" v-model="cardName" />
-                <label for="ccnum">Credit card number</label> <br>
-                <input id="ccnum" v-model="cardNumber" /> <br>
-                <label for="expmonth">Exp Month</label> <br>
+                <label for="ccnum">Credit card number</label> <br />
+                <input id="ccnum" v-model="cardNumber" /> <br />
+                <label for="expmonth">Exp Month</label> <br />
                 <input id="expmonth" v-model="expMonth" />
                 <div class="row">
                   <div class="col-50">
@@ -58,11 +83,12 @@
               </div>
             </div>
 
-            <router-link to="/billing"><input
-              type="submit"
-              value="Save Card"
-              class="save-btn"
-              @click="saveBilling"
+            <router-link to="/billing"
+              ><input
+                type="submit"
+                value="Save Card"
+                class="save-btn"
+                @click="saveBilling"
             /></router-link>
             {{ message }}
           </div>
@@ -100,7 +126,7 @@ export default class AddCard extends Vue {
       this.message = "";
     }, 5000);
   }
-//this.$
+  //this.$
   saveBilling(): void {
     this.$appDB
       .collection(`users/${this.uid}/billing`)
@@ -116,9 +142,9 @@ export default class AddCard extends Vue {
         expMonth: this.expMonth,
         expYear: this.expYear,
         cvv: this.cvv,
-      })      
+      })
       .then(() => {
-        this.$router.push({ path: "/billing" }); 
+        this.$router.push({ path: "/billing" });
       })
       .then(() => {
         this.showMessage(`Card saved successfully!`);
@@ -128,11 +154,12 @@ export default class AddCard extends Vue {
 </script>
 
 <style scope>
-.vue-addCard .inner-block {
+.table-wrapper {
+  margin: auto;
   margin-top: 10%;
   margin-left: 15%;
 
-  width: 70%;
+  width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
@@ -210,6 +237,4 @@ label {
 .save-btn:hover {
   background-color: #493077;
 }
-
-
 </style>

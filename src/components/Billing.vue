@@ -1,39 +1,76 @@
 <template>
-  <div class="container-lg">
-    <div class="container">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-8"><h2>My Cards</h2></div>
-            <div class="col-sm-4">
-              <router-link to="/addCard"><button type="button" class="btn btn-info add-new" 
-                ><i class="fa fa-plus"></i> Add New
-              </button></router-link> 
-            </div>
+  <div class="container">
+    <nav
+      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand float-left" href="#">
+          SNK-Y-BOT
+        </a>
+
+        <ul class="nav navbar-nav flex-row float-right">
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/billing"
+              >Billing</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/leaderboard"
+              >Leaderboard</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>My Cards</h2></div>
+          <div class="col-sm-4">
+            <router-link to="/addCard"
+              ><button type="button" class="btn btn-info add-new">
+                <i class="fa fa-plus"></i> Add New Card
+              </button></router-link
+            >
           </div>
         </div>
-        <table class="table table-bordered">
-          <thead>
-            <tr >
-              <th>Card Name</th>
-              <th>Address</th>
-              <th>E-mail</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr  v-for="c in cardInfo" :key="c.id">
-              <td>{{c.cardName}}</td>
-              <td>{{c.address}}</td>
-              <td>{{c.email}}</td>
-              <td>
-                <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip">Edit</button>
-                <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(c)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Card Name</th>
+            <th>Address</th>
+            <th>E-mail</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="c in cardInfo" :key="c.id">
+            <td>{{ c.cardName }}</td>
+            <td>{{ c.address }}</td>
+            <td>{{ c.email }}</td>
+            <td>
+              <button
+                class="btn btn-primary edit"
+                title="Edit"
+                data-toggle="tooltip"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-danger delete"
+                title="Delete"
+                @click="deleteCard(c)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -42,17 +79,14 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 
-
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
 
   private uid = "none";
   private id = {};
-  private cardid= {};
+  private cardid = {};
   private cardInfo: any[] = [];
-
-
 
   mounted() {
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
@@ -64,14 +98,15 @@ export default class Billing extends Vue {
             name: billingInfo.name,
             email: billingInfo.email,
             address: billingInfo.address,
-            // city: this.city,
-            // state: this.state,
-            // zip: this.zip,
+            // city: billingInfo.city,
+            // state: billingInfo.state,
+            // country: billingInfo.country,
+            // zip: billingInfo.zip,
             cardName: billingInfo.cardName,
-            // cardNumber: this.cardNumber,
-            // expMonth: this.expMonth,
-            // expYear: this.expYear,
-            // cvv: this.cvv,
+            // cardNumber: billingInfo.cardNumber,
+            // expMonth: billingInfo.expMonth,
+            // expYear: billingInfo.expYear,
+            // cvv: billingInfo.cvv,
           });
         }
       });
@@ -79,14 +114,14 @@ export default class Billing extends Vue {
     console.log(this.cardInfo);
   }
 
-
-
-  deleteCard(c: any) { 
+  deleteCard(c: any): void {
     console.log("billing to be deleted: ", c);
 
-    var d = this.$appDB.collection(`users/${this.uid}/billing`).where('cardName','==', c.cardName);
+    var d = this.$appDB
+      .collection(`users/${this.uid}/billing`)
+      .where("cardName", "==", c.cardName);
 
-    console.log("queried object: ", d)
+    console.log("queried object: ", d);
 
     d.get().then(function(qs) {
       qs.forEach(function(doc) {
@@ -107,8 +142,8 @@ export default class Billing extends Vue {
 <style>
 .table-wrapper {
   margin: auto;
-margin-top: 10%;
-margin-left: 18%;
+  margin-top: 10%;
+  margin-left: 18%;
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

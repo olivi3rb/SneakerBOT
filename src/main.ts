@@ -6,19 +6,18 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 // import "@/assets/main.css";
 import "firebase/auth";
-
-
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCEC-myBj8w1jJOztnM6MlrhfrSe_lmHJc",
-  authDomain: "snk-y-db.firebaseapp.com",
-  projectId: "snk-y-db",
-  storageBucket: "snk-y-db.appspot.com",
-  messagingSenderId: "456032801986",
-  appId: "1:456032801986:web:0e86141a58b4e96a52d75b",
-  measurementId: "G-RL9R97BVG6"
+  apiKey: "AIzaSyAeChlh5p9OkZLlsVp7WXdfSmilX0Y33QU",
+  authDomain: "final-a5558.firebaseapp.com",
+  projectId: "final-a5558",
+  storageBucket: "final-a5558.appspot.com",
+  messagingSenderId: "1005433594521",
+  appId: "1:1005433594521:web:f1090ad3346812ef85ce08",
+  measurementId: "G-B6YW0CM8CV",
 };
+
 
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$appAuth = firebase.auth();

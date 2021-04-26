@@ -1,41 +1,78 @@
 <template>
-  <div class="vue-taskEdit">
-    <div class="inner-block">
+  <div class="container">
+    <nav
+      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand float-left" href="#">
+          SNK-Y-BOT
+        </a>
+
+        <ul class="nav navbar-nav flex-row float-right">
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/billing"
+              >Billing</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/leaderboard"
+              >Leaderboard</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="table-wrapper">
       <div class="row">
         <div class="col-75">
           <div class="card-container">
             <div class="row">
               <div class="col-50">
-                <h3>Task View</h3>
+                <h3>Add New Task</h3>
 
-                <label for="fname" > Website </label>
+                <label for="fname"> Website </label>
                 <select v-model="website">
-                  <option v-for="(sites, pos) in sitelist" :value="sites" :key="pos"> {{sites}} </option>
-                </select>  
-                
-                <label for="email"><i class="fa fa-user"/> Profile </label>
-                <select v-model="selectedProfile">
-                  <option v-for="(profs, pos) in billingProfiles" :value="profs" :key="pos"> {{profs.cardName}} </option>
-                </select>  
+                  <option
+                    v-for="(sites, pos) in sitelist"
+                    :value="sites"
+                    :key="pos"
+                  >
+                    {{ sites }}
+                  </option>
+                </select>
+
+                <label for="email"><i class="fa fa-user" /> Profile </label>
+                <select class="dropdown" v-model="selectedProfile">
+                  <option
+                    v-for="(profs, pos) in billingProfiles"
+                    :value="profs"
+                    :key="pos"
+                  >
+                    {{ profs.cardName }}
+                  </option>
+                </select>
+                <br />
 
                 <label for="adr"> ATC Link </label>
-                <input type="text" id="adr" v-model="atcLink"/>
+                <input type="text" id="adr" v-model="atcLink" />
 
                 <label for="adr"> Size </label>
-                <input type="text" id="adr" v-model="selectedsize"/>
+                <input type="text" id="adr" v-model="selectedsize" />
 
-                <label for="city"> Product </label>
-                <input type="text" id="city" v-model="selectedproduct"/>
-
+                <label> Product </label>
+                <input type="text" v-model="selectedproduct" />
               </div>
             </div>
 
-            <router-link to="/tasks"><input
+            <input
               type="submit"
-              value="Save Card"
+              value="Add Task"
               class="save-btn"
               @click="createTask"
-            /></router-link>
+            />
             {{ message }}
           </div>
         </div>
@@ -54,7 +91,12 @@ export default class TaskView extends Vue {
   private uid = "none";
   private billingProfiles: any[] = [];
   private selectedProfile = {};
-  private sitelist: any[] = ['Kith', 'Dead Stock', 'Shoe Palace', 'Shop Nice Kicks']
+  private sitelist: any[] = [
+    "Kith",
+    "Dead Stock",
+    "Shoe Palace",
+    "Shop Nice Kicks",
+  ];
   private website = "";
   private selectedsize = "";
   private atcLink = "";
@@ -66,17 +108,19 @@ export default class TaskView extends Vue {
       this.message = "";
     }, 5000);
   }
-  makeid (): string {
+  makeid(): string {
     var result = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     var charactersLength = characters.length;
-    for ( var i = 0; i < 5; i++ ) {
-      result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+    for (var i = 0; i < 5; i++) {
+      result.push(
+        characters.charAt(Math.floor(Math.random() * charactersLength))
+      );
     }
-    return result.join('');
+    return result.join("");
   }
-  createTask (): void {
-    var TID:string = this.makeid()
+  createTask(): void {
+    var TID: string = this.makeid();
     var task = {
       tid: TID,
       site: this.website,
@@ -84,16 +128,16 @@ export default class TaskView extends Vue {
       size: this.selectedsize,
       item: this.selectedproduct,
       atc: this.atcLink,
-      status: "idle..."
-    }
+      status: "idle...",
+    };
     this.$appDB
       .collection(`users/${this.uid}/tasks`)
       .add(task)
       .then(() => {
-        this.$router.push({ path: "/tasks" }); 
+        this.$router.push({ path: "/tasks" });
       })
       .then(() => {
-        console.log("Task: ", task)
+        console.log("Task: ", task);
         this.showMessage(`Task added successfully!`);
       });
   }
@@ -125,10 +169,11 @@ export default class TaskView extends Vue {
 </script>
 
 <style scope>
-.vue-addCard .inner-block {
+.table-wrapper {
+  margin: auto;
   margin-top: 10%;
   margin-left: 15%;
-  width: 70%;
+  width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
@@ -212,4 +257,3 @@ span.price {
   color: grey;
 }
 </style>
-

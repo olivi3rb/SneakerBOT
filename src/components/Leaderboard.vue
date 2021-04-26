@@ -1,66 +1,77 @@
 <template>
-    <div class="container">
-        <nav class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top">
+  <div class="container">
+    <nav
+      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
+    >
       <div class="container">
         <a class="navbar-brand float-left" href="#">
-           SNK-Y-BOT
+          SNK-Y-BOT
         </a>
-        
+
         <ul class="nav navbar-nav flex-row float-right">
-                    <li class="nav-item">
+          <li class="nav-item">
             <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/billing">Billing</router-link>
+            <router-link class="nav-link pr-3" to="/billing"
+              >Billing</router-link
+            >
           </li>
-                              <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/leaderboard">Leaderboard</router-link>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/leaderboard"
+              >Leaderboard</router-link
+            >
           </li>
         </ul>
       </div>
     </nav>
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-8"><h2>Leaderboard</h2></div>
-
-          </div>
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>Leaderboard</h2></div>
         </div>
-        <table class="table table-bordered">
-          <thead>
-            <tr >
-              <th>User</th>
-              <th>Item Purchased</th>
-              <th>Status</th>
-              <!-- <th>Actions</th> -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr  v-for="c in cardInfo" :key="c.id" >
-               
-           
-              <td>{{c.profile}}</td>
-              <td>{{c.item}}</td>
-              <td>{{c.status}}</td>
-              <td>
-                <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip"> Edit
-                 </button>
-                
-              <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(c)"> Delete
-                </button>
-              </td>
-              </tr> 
-     
-          </tbody>
-        </table>
       </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Item Purchased</th>
+            <th>Status</th>
+            <!-- <th>Actions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="c in cardInfo" :key="c.id">
+            <td>{{ c.profile }}</td>
+            <td>{{ c.item }}</td>
+            <td>{{ c.status }}</td>
+            <td>
+              <button
+                class="btn btn-primary edit"
+                title="Edit"
+                data-toggle="tooltip"
+              >
+                Edit
+              </button>
+
+              <button
+                class="btn btn-danger delete"
+                title="Delete"
+                @click="deleteCard(c)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
-
 
 @Component
 export default class Leaderboard extends Vue {
@@ -71,21 +82,24 @@ export default class Leaderboard extends Vue {
 
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
-  private userAgent = require('user-agents');
-  private puppeteer = require('puppeteer-extra');
-  private StealthPlugin = require('puppeteer-extra-plugin-stealth');
+  private userAgent = require("user-agents");
+  private puppeteer = require("puppeteer-extra");
+  private StealthPlugin = require("puppeteer-extra-plugin-stealth");
   goBot = async (taskObject: any) => {
     console.log("running bot on: ", taskObject);
     this.puppeteer.use(this.StealthPlugin());
     const browser = await this.puppeteer.launch({
-        headless: false,
-        defaultViewport: null,
-        args: [ '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
+      headless: false,
+      defaultViewport: null,
+      args: [
+        "--disable-web-security",
+        "--disable-features=IsolateOrigins,site-per-process",
+      ],
     });
     const page = await browser.newPage();
     // new user agent
     await page.setUserAgent(this.userAgent.toString());
-  }
+  };
   mounted() {
     this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
       this.tasks.splice(0);
@@ -107,45 +121,38 @@ export default class Leaderboard extends Vue {
     console.log("tasks: ", this.tasks);
   }
 
-
-  
-
-
-//   mounted() {
-//     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
-//       this.cardInfo.splice(0);
-//       qs.forEach((qds) => {
-//         if (qds.exists) {
-//           const billingInfo = qds.data();
-//           this.cardInfo.push({
-//             name: billingInfo.name,
-//             email: billingInfo.email,
-//             address: billingInfo.address,
-//             // city: this.city,
-//             // state: this.state,
-//             // zip: this.zip,
-//             cardName: billingInfo.cardName,
-//             // cardNumber: this.cardNumber,
-//             // expMonth: this.expMonth,
-//             // expYear: this.expYear,
-//             // cvv: this.cvv,
-//           });
-//         }
-//       });
-//     });
-//     console.log(this.cardInfo);
-//   }
-
-
-
+  //   mounted() {
+  //     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
+  //       this.cardInfo.splice(0);
+  //       qs.forEach((qds) => {
+  //         if (qds.exists) {
+  //           const billingInfo = qds.data();
+  //           this.cardInfo.push({
+  //             name: billingInfo.name,
+  //             email: billingInfo.email,
+  //             address: billingInfo.address,
+  //             // city: this.city,
+  //             // state: this.state,
+  //             // zip: this.zip,
+  //             cardName: billingInfo.cardName,
+  //             // cardNumber: this.cardNumber,
+  //             // expMonth: this.expMonth,
+  //             // expYear: this.expYear,
+  //             // cvv: this.cvv,
+  //           });
+  //         }
+  //       });
+  //     });
+  //     console.log(this.cardInfo);
+  //   }
 }
 </script>
 
 <style>
 .table-wrapper {
   margin: auto;
-margin-top: 10%;
-margin-left: 18%;
+  margin-top: 10%;
+  margin-left: 18%;
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

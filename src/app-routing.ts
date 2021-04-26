@@ -12,8 +12,8 @@ Vue.use(VueRouter);
 
 const myRoutes: Array<RouteConfig> = [
   {
-    name: "",
-    path: "",
+    name: "/",
+    path: "/",
     component: Login,
   },
   {
@@ -55,6 +55,12 @@ const myRoutes: Array<RouteConfig> = [
     name: "Leaderboard",
     path: "/leaderboard",
     component: Leaderboard,
+  },
+
+  {
+    name: "EditCard",
+    path: "/editCard",
+    component: EditCard,
   },
 ];
 

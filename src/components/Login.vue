@@ -2,46 +2,48 @@
   <div class="vue-login">
     <div class="inner-block">
       <div class="vertical-center">
-    <form>
-      <h3>Welcome to SNK-Y-BOT</h3>
+        <form>
+          <h3>Welcome to SNK-Y-BOT</h3>
 
-      <div class="form-group">
-        <input
-          type="email"
-          class="form-control form-control-lg"
-          placeholder="Email address"
-          v-model="userEmail"
-        />
+          <div class="form-group">
+            <input
+              type="email"
+              class="form-control form-control-lg"
+              placeholder="Email address"
+              v-model="userEmail"
+            />
+          </div>
+
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control form-control-lg"
+              placeholder="Password"
+              v-model="userPassword"
+            />
+          </div>
+
+          <router-link to="/tasks"
+            ><button
+              class="btn btn-dark btn-lg btn-block"
+              @click="authenticate"
+            >
+              Sign In
+            </button></router-link
+          >
+
+          <p class="create-account text-center">
+            Or
+            <router-link to="/signup" replace>Sign up</router-link>
+            to create an account
+          </p>
+
+          <p class="forgot-password text-right mt-2 mb-4">
+            <router-link to="/forgot-password">Forgot password ?</router-link>
+          </p>
+          <div>{{ message }}</div>
+        </form>
       </div>
-
-      <div class="form-group">
-        <input
-          type="password"
-          class="form-control form-control-lg"
-          placeholder="Password"
-          v-model="userPassword"
-        />
-      </div>
-
-      <router-link to="/tasks"><button
-        class="btn btn-dark btn-lg btn-block"
-        @click="authenticate"
-      >
-        Sign In
-      </button></router-link>
-
-      <p class="create-account text-center">
-        Or
-        <router-link to="/signup" replace>Sign up</router-link>
-        to create an account
-      </p>
-
-      <p class="forgot-password text-right mt-2 mb-4">
-        <router-link to="/forgot-password">Forgot password ?</router-link>
-      </p>
-      <div>{{ message }}</div>
-    </form>
-    </div>
     </div>
   </div>
 </template>
@@ -62,23 +64,21 @@ export default class Login extends Vue {
     return this.userEmail.length === 0 || this.userPassword.length === 0;
   }
 
-
-    authenticate(): void {console.log("olivier")
+  authenticate(): void {
+    console.log("olivier");
     this.$appAuth
-    
+
       .signInWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {
         this.showMessage(`Login successful UID ${u.user?.uid}`);
-        this.$router.push({ path: "/billing" }); 
+        this.$router.push({ path: "/billing" });
       })
       .catch((err: any) => {
         this.showMessage(`Unable to login ${err}`);
       });
+  }
 
-}
-
-
-    showMessage(m: string): void {
+  showMessage(m: string): void {
     this.message = m;
     setTimeout(() => {
       // Auto disappear after 5 seconds
@@ -89,7 +89,7 @@ export default class Login extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style >
+<style>
 * {
   box-sizing: border-box;
 }
@@ -100,7 +100,6 @@ body {
   display: flex;
   font-weight: 400;
 }
-
 
 .vue-login,
 .vertical-center {
@@ -113,20 +112,18 @@ body {
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
-
-
- .vue-login .inner-block {
+.vue-login .inner-block {
   margin-top: 50%;
-    margin-left: 125%;
-  
-width: 100%;
+  margin-left: 125%;
+
+  width: 100%;
 
   padding: 10px;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .vertical-center .form-control:focus {
@@ -158,21 +155,19 @@ label {
   color: white;
 }
 
-.create-account{
-    color: black;
+.create-account {
+  color: black;
 }
 
-.already-registered{
-    color: black;
+.already-registered {
+  color: black;
 }
 
-.vue-login a{
-    color:#6441a5 ;
+.vue-login a {
+  color: #6441a5;
 }
 
-router-link{
-    color:#6441a5;
+router-link {
+  color: #6441a5;
 }
-
-
 </style>

@@ -1,47 +1,86 @@
 <template>
-    <div class="container">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-8"><h2>Tasks</h2></div>
-            <div class="col-sm-12">
-              <button type="button" class="btn btn-info add-new">Delete All</button> 
-              <button type="button" class="btn btn-info add-new">Start All</button>
-              <router-link to="/taskView"><button type="button" class="btn btn-info add-new" 
-                ><i class="fa fa-plus"></i> Add New Task
-              </button></router-link>
-            </div>
+  <div class="container">
+    <nav
+      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
+    >
+      <div class="container">
+        <a class="navbar-brand float-left" href="#">
+          SNK-Y-BOT
+        </a>
+
+        <ul class="nav navbar-nav flex-row float-right">
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/billing"
+              >Billing</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/leaderboard"
+              >Leaderboard</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>Tasks</h2></div>
+          <div class="col-sm-12">
+            <button type="button" class="btn btn-info add-new">
+              Delete All
+            </button>
+            <button type="button" class="btn btn-info add-new">
+              Start All
+            </button>
+            <router-link to="/taskView"
+              ><button type="button" class="btn btn-info add-new">
+                <i class="fa fa-plus"></i> Add New Task
+              </button></router-link
+            >
           </div>
         </div>
-        <table class="table table-bordered">
-          <thead>
-            <tr >
-              <th>TID</th>
-              <th>Site</th>
-              <th>Product</th>
-              <th>Size</th>
-              <th>Profile</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr  v-for="(c,pos) in tasks" :key="pos">
-              <td>{{c.tid}}</td>
-              <td>{{c.site}}</td>
-              <td>{{c.item}}</td>
-              <td>{{c.size}}</td>
-              <td>{{c.profile.cardName}}</td>
-              <td>{{c.status}}</td>
-              <td>
-                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                <a class="delete" title="Delete" data-toggle="tooltip" v-on:click="deleteTask(c)"><i class="material-icons">&#xE872;</i></a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>TID</th>
+            <th>Site</th>
+            <th>Product</th>
+            <th>Size</th>
+            <th>Profile</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(c, pos) in tasks" :key="pos">
+            <td>{{ c.tid }}</td>
+            <td>{{ c.site }}</td>
+            <td>{{ c.item }}</td>
+            <td>{{ c.size }}</td>
+            <td>{{ c.profile.cardName }}</td>
+            <td>{{ c.status }}</td>
+            <td>
+              <a class="edit" title="Edit" data-toggle="tooltip"
+                ><i class="material-icons">&#xE254;</i></a
+              >
+              <a
+                class="delete"
+                title="Delete"
+                data-toggle="tooltip"
+                v-on:click="deleteTask(c)"
+                ><i class="material-icons">&#xE872;</i></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -53,30 +92,35 @@ export default class Billing extends Vue {
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
-  
-  private userAgent = require('user-agents');
-  private puppeteer = require('puppeteer-extra');
-  private StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+  private userAgent = require("user-agents");
+  private puppeteer = require("puppeteer-extra");
+  private StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
   goBot = async (taskObject: any) => {
     console.log("running bot on: ", taskObject);
     this.puppeteer.use(this.StealthPlugin());
     const browser = await this.puppeteer.launch({
-        headless: false,
-        defaultViewport: null,
-        args: [ '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
+      headless: false,
+      defaultViewport: null,
+      args: [
+        "--disable-web-security",
+        "--disable-features=IsolateOrigins,site-per-process",
+      ],
     });
     const page = await browser.newPage();
     // new user agent
     await page.setUserAgent(this.userAgent.toString());
-  }
+  };
 
-  deleteTask (c: any):void {
+  deleteTask(c: any): void {
     console.log("task to be deleted: ", c);
 
-    var d = this.$appDB.collection(`users/${this.uid}/tasks`).where('tid','==', c.tid);
+    var d = this.$appDB
+      .collection(`users/${this.uid}/tasks`)
+      .where("tid", "==", c.tid);
 
-    console.log("queried task: ", d)
+    console.log("queried task: ", d);
 
     d.get().then(function(qs) {
       qs.forEach(function(doc) {
@@ -111,7 +155,7 @@ export default class Billing extends Vue {
 <style>
 .table-wrapper {
   margin: auto;
-margin-top: 10%;
+  margin-top: 10%;
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

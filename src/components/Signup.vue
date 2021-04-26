@@ -1,60 +1,46 @@
 <template>
   <div class="vue-signup">
     <div class="inner-block">
-    <form>
-      <h3>Welcome to SNK-Y-BOT</h3>
+      <form>
+        <h3>Welcome to SNK-Y-BOT</h3>
 
-      <!-- <div class="form-group">
-        <input
-          type="text"
-          class="form-control form-control-lg"
-          placeholder="First Name"
-          v-model="firstName"
-        />
-      </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            placeholder="Email address"
+            v-model="userEmail"
+          />
+        </div>
 
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control form-control-lg"
-          placeholder="Last Name"
-          v-model="lastName"
-        />
-      </div> -->
+        <div class="form-group">
+          <input
+            type="password"
+            class="form-control form-control-lg"
+            placeholder="Password"
+            v-model="userPassword"
+          />
+        </div>
 
-      <div class="form-group">
-        <input
-          type="text"
-          class="form-control form-control-lg"
-          placeholder="Email address"
-          v-model="userEmail"
-        />
-      </div>
+        <router-link to="/tasks">
+          <button class="btn btn-dark btn-lg btn-block" @click="createAccount">
+            Sign Up
+          </button>
+        </router-link>
 
-      <div class="form-group">
-        <input
-          type="password"
-          class="form-control form-control-lg"
-          placeholder="Password"
-          v-model="userPassword"
-        />
-      </div>
-
-      <router-link to="/tasks"> <button  class="btn btn-dark btn-lg btn-block" @click="createAccount"> Sign Up </button> </router-link>
-
-      <p class="already-registered text-center">
-        Already registered?
-        <router-link to="/login" replace>Sign In</router-link>
-      </p>
-    </form>
-  </div>
+        <p class="already-registered text-center">
+          Already registered?
+          <router-link to="/" replace>Sign In</router-link>
+        </p>
+      </form>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Tasks from "./components/Tasks.vue";
-import Login from './components/Login.vue';
+import Login from "./components/Login.vue";
 import { FirebaseAuth } from "@firebase/auth-types";
 import { UserCredential } from "@firebase/auth-types";
 
@@ -64,8 +50,6 @@ export default class Signup extends Vue {
   private message = "";
   private userEmail = "";
   private userPassword = "";
-  private firstName = "";
-  private lastName = "";
 
   createAccount(): void {
     this.$appAuth
@@ -77,10 +61,10 @@ export default class Signup extends Vue {
       })
       .catch((err: any) => {
         this.showMessage(`Unable to create account ${err}`);
-      });console.log("olivier")
+      });
+    console.log("olivier");
   }
 
-  
   showMessage(m: string): void {
     this.message = m;
     setTimeout(() => {
@@ -91,7 +75,7 @@ export default class Signup extends Vue {
 }
 </script>
 
-<style  >
+<style>
 * {
   box-sizing: border-box;
 }
@@ -101,9 +85,7 @@ body {
   min-height: 100vh;
   display: flex;
   font-weight: 400;
-
 }
-
 
 .vue-signup,
 .vertical-center {
@@ -116,20 +98,18 @@ body {
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
-
-
- .vue-signup .inner-block {
+.vue-signup .inner-block {
   margin-top: 50%;
-    margin-left: 125%;
-  
-width: 100%;
+  margin-left: 125%;
+
+  width: 100%;
 
   padding: 10px;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .vertical-center .form-control:focus {
@@ -161,21 +141,19 @@ label {
   color: white;
 }
 
-.create-account{
-    color: black;
+.create-account {
+  color: black;
 }
 
-.already-registered{
-    color: black;
+.already-registered {
+  color: black;
 }
 
-.vue-login a{
-    color:#6441a5 ;
+.vue-login a {
+  color: #6441a5;
 }
 
-router-link{
-    color:#6441a5;
+router-link {
+  color: #6441a5;
 }
-
-
 </style>
