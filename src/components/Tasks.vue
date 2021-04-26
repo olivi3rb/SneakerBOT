@@ -35,7 +35,7 @@
               <td>{{c.status}}</td>
               <td>
                 <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                <a class="delete" title="Delete" data-toggle="tooltip" v-on:click="goBot(c)"><i class="material-icons">&#xE872;</i></a>
+                <a class="delete" title="Delete" data-toggle="tooltip" v-on:click="deleteTask(c)"><i class="material-icons">&#xE872;</i></a>
               </td>
             </tr>
           </tbody>
@@ -53,9 +53,11 @@ export default class Billing extends Vue {
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
+  
   private userAgent = require('user-agents');
   private puppeteer = require('puppeteer-extra');
   private StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
   goBot = async (taskObject: any) => {
     console.log("running bot on: ", taskObject);
     this.puppeteer.use(this.StealthPlugin());
@@ -68,6 +70,21 @@ export default class Billing extends Vue {
     // new user agent
     await page.setUserAgent(this.userAgent.toString());
   }
+
+  deleteTask (c: any):void {
+    console.log("task to be deleted: ", c);
+
+    var d = this.$appDB.collection(`users/${this.uid}/tasks`).where('tid','==', c.tid);
+
+    console.log("queried task: ", d)
+
+    d.get().then(function(qs) {
+      qs.forEach(function(doc) {
+        doc.ref.delete();
+      });
+    });
+  }
+
   mounted() {
     this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
       this.tasks.splice(0);
