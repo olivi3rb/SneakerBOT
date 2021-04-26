@@ -4,7 +4,7 @@
       class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
     >
       <div class="container">
-        <a class="navbar-brand float-left" href="#">
+        <a class="navbar-brand float-left" href="tasks">
           SNK-Y-BOT
         </a>
 
@@ -20,6 +20,11 @@
           <li class="nav-item">
             <router-link class="nav-link pr-3" to="/leaderboard"
               >Leaderboard</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link  class="nav-link pr-3" to="/"
+              >Logout</router-link
             >
           </li>
         </ul>

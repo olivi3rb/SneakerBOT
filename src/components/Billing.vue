@@ -4,7 +4,7 @@
       class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
     >
       <div class="container">
-        <a class="navbar-brand float-left" href="#">
+        <a class="navbar-brand float-left" href="tasks">
           SNK-Y-BOT
         </a>
 
@@ -21,6 +21,9 @@
             <router-link class="nav-link pr-3" to="/leaderboard"
               >Leaderboard</router-link
             >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link pr-3" to="/">Logout</router-link>
           </li>
         </ul>
       </div>
@@ -50,19 +53,25 @@
         <tbody>
           <tr v-for="c in cardInfo" :key="c.id">
             <td>Billing ID: {{ c.cardName }}</td>
-            <td>Billing Address: {{ c.address }} Email: {{ c.email }} Phone: {{c.phone}}</td>
-            <td>Card Name: {{c.cardName}} <br> Exp Date: {{c.expMonth}}/{{c.expYear}}</td>
-            <td >
+            <td>
+              Billing Address: {{ c.address }} Email: {{ c.email }} Phone:
+              {{ c.phone }}
+            </td>
+            <td>
+              Card Name: {{ c.cardName }} <br />
+              Exp Date: {{ c.expMonth }}/{{ c.expYear }}
+            </td>
+            <td>
               <a class="edit" title="Edit" data-toggle="tooltip"
-                ><i class="fa fa-pencil" aria-hidden="true"></i></a
-              >
+                ><i class="fa fa-pencil" aria-hidden="true"></i
+              ></a>
               <a
                 class="delete"
                 title="Delete"
                 data-toggle="tooltip"
                 v-on:click="deleteCard(c)"
-                ><i class="fa fa-trash" aria-hidden="true"></i></a
-              >
+                ><i class="fa fa-trash" aria-hidden="true"></i
+              ></a>
             </td>
           </tr>
         </tbody>
@@ -128,7 +137,7 @@ export default class Billing extends Vue {
     });
   }
 
-    makeid(): string {
+  makeid(): string {
     var result = [];
     var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     var charactersLength = characters.length;
@@ -227,6 +236,4 @@ table.table .form-control.error {
 table.table td .add {
   display: none;
 }
-
-
 </style>

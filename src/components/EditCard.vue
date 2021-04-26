@@ -4,7 +4,7 @@
       class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
     >
       <div class="container">
-        <a class="navbar-brand float-left" href="#">
+        <a class="navbar-brand float-left" href="/tasks">
           SNK-Y-BOT
         </a>
 
