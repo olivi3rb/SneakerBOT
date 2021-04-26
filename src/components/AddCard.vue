@@ -58,12 +58,12 @@
               </div>
             </div>
 
-            <input
+            <router-link to="/billing"><input
               type="submit"
               value="Save Card"
               class="save-btn"
               @click="saveBilling"
-            />
+            /></router-link>
             {{ message }}
           </div>
         </div>

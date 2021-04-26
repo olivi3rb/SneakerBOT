@@ -40,9 +40,7 @@
         />
       </div>
 
-      <button  class="btn btn-dark btn-lg btn-block" @click="createAccount">
-        Sign Up
-      </button>
+      <router-link to="/tasks"> <button  class="btn btn-dark btn-lg btn-block" @click="createAccount"> Sign Up </button> </router-link>
 
       <p class="already-registered text-center">
         Already registered?
@@ -55,6 +53,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import Tasks from "./components/Tasks.vue";
+import Login from './components/Login.vue';
 import { FirebaseAuth } from "@firebase/auth-types";
 import { UserCredential } from "@firebase/auth-types";
 

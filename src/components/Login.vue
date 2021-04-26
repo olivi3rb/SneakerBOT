@@ -23,12 +23,12 @@
         />
       </div>
 
-      <button
+      <router-link to="/tasks"><button
         class="btn btn-dark btn-lg btn-block"
         @click="authenticate"
       >
         Sign In
-      </button>
+      </button></router-link>
 
       <p class="create-account text-center">
         Or

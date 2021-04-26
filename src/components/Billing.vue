@@ -28,7 +28,7 @@
               <td>{{c.email}}</td>
               <td>
                 <button class="btn btn-primary edit" title="Edit" data-toggle="tooltip">Edit</button>
-                <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(id)">Delete</button>
+                <button class="btn btn-danger delete" title="Delete"  @click="deleteCard(c)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -81,13 +81,25 @@ export default class Billing extends Vue {
 
 
 
-  deleteCard(c: any) { console.log("olivier");
+  deleteCard(c: any) { 
+    console.log("billing to be deleted: ", c);
 
-this.$appDB.collection(`/billing`).doc(c).delete().then(() => {
-    console.log("Document successfully deleted!");
-}).catch((error) => {
-    console.error("Error removing document: ", error);
-}); console.log();
+    var d = this.$appDB.collection(`users/${this.uid}/billing`).where('cardName','==', c.cardName);
+
+    console.log("queried object: ", d)
+
+    d.get().then(function(qs) {
+      qs.forEach(function(doc) {
+        doc.ref.delete();
+      });
+    });
+
+    // this.$appDB
+    // .collection(`/billing`).doc(c).delete().then(() => {
+    //     console.log("Document successfully deleted!");
+    // }).catch((error) => {
+    //     console.error("Error removing document: ", error);
+    // }); console.log();
   }
 }
 </script>
