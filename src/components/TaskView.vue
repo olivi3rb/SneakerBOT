@@ -16,9 +16,9 @@
                 <label for="email"><i class="fa fa-user"/> Profile </label>
                 <select class="dropdown" v-model="selectedProfile">
                   <option v-for="(profs, pos) in billingProfiles" :value="profs" :key="pos"> {{profs.cardName}} </option>
-                </select>  
+                </select>  <br>
 
-                <label for="adr"> ATC Link </label>
+               <label for="adr"> ATC Link </label>
                 <input type="text" id="adr" v-model="atcLink"/>
 
                 <label for="adr"> Size </label>
