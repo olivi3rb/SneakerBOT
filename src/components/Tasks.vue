@@ -177,9 +177,7 @@ table.table th i {
   margin: 0 5px;
   cursor: pointer;
 }
-table.table th:last-child {
-  width: 100px;
-}
+
 table.table td a {
   cursor: pointer;
   display: inline-block;

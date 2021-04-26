@@ -37,11 +37,21 @@
                 <label for="email"><i class="fa fa-envelope"></i> Email</label>
                 <input type="text" id="email" v-model="userEmail" />
                 <label for="adr"
-                  ><i class="fa fa-address-card-o"></i> Address</label
+                  ><i class="fa fa-address-card-o"></i>Billing Address 1</label
                 >
-                <input type="text" id="adr" v-model="address" />
+                <input type="text" id="adr" v-model="addressone" />
+                <label for="adr"
+                  ><i class="fa fa-address-card-o"></i>Billing Address 2</label
+                >
+                <input type="text" id="adr" v-model="addresstwo" />
+                <label for="adr"
+                  ><i class="fa fa-phone"></i> Phone Number</label
+                >
+                <input type="text" id="adr" v-model="phone" />
                 <label for="city"><i class="fa fa-institution"></i> City</label>
                 <input type="text" id="city" v-model="city" />
+                <label for="country"><i class="fa fa-globe"></i> Country</label>
+                <input type="text" id="country" v-model="country" />
 
                 <div class="row">
                   <div class="col-50">
@@ -109,9 +119,13 @@ export default class AddCard extends Vue {
   private uid = "none";
   private fullname = "";
   private userEmail = "";
-  private address = "";
+  private addressone = "";
+  private addresstwo = "";
+  private phone = "";
   private city = "";
   private state = "";
+  private country = "";
+  private bId = "";
   private zip = "";
   private cardName = "";
   private cardNumber = "";
@@ -131,11 +145,15 @@ export default class AddCard extends Vue {
     this.$appDB
       .collection(`users/${this.uid}/billing`)
       .add({
+        billingId: this.bId,
         name: this.fullname,
         email: this.userEmail,
-        address: this.address,
+        address: this.addressone,
+        addresstwo: this.addresstwo,
+        phone: this.phone,
         city: this.city,
         state: this.state,
+        country: this.country,
         zip: this.zip,
         cardName: this.cardName,
         cardNumber: this.cardNumber,

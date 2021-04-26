@@ -41,17 +41,17 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>Card Name</th>
-            <th>Address</th>
-            <th>E-mail</th>
+            <th>BID</th>
+            <th>Details</th>
+            <th>Card Info</th>
             <th class="actions">Acions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="c in cardInfo" :key="c.id">
-            <td>{{ c.cardName }}</td>
-            <td>{{ c.address }}</td>
-            <td>{{ c.email }}</td>
+            <td>Billing ID: {{ c.cardName }}</td>
+            <td>Billing Address: {{ c.address }} Email: {{ c.email }} Phone: {{c.phone}}</td>
+            <td>Card Name: {{c.cardName}} <br> Exp Date: {{c.expMonth}}/{{c.expYear}}</td>
             <td >
               <a class="edit" title="Edit" data-toggle="tooltip"
                 ><i class="fa fa-pencil" aria-hidden="true"></i></a
@@ -91,17 +91,19 @@ export default class Billing extends Vue {
         if (qds.exists) {
           const billingInfo = qds.data();
           this.cardInfo.push({
+            bId: billingInfo.bId,
             name: billingInfo.name,
             email: billingInfo.email,
             address: billingInfo.address,
+            phone: billingInfo.phone,
             // city: billingInfo.city,
             // state: billingInfo.state,
             // country: billingInfo.country,
             // zip: billingInfo.zip,
             cardName: billingInfo.cardName,
             // cardNumber: billingInfo.cardNumber,
-            // expMonth: billingInfo.expMonth,
-            // expYear: billingInfo.expYear,
+            expMonth: billingInfo.expMonth,
+            expYear: billingInfo.expYear,
             // cvv: billingInfo.cvv,
           });
         }
@@ -124,6 +126,18 @@ export default class Billing extends Vue {
         doc.ref.delete();
       });
     });
+  }
+
+    makeid(): string {
+    var result = [];
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < 5; i++) {
+      result.push(
+        characters.charAt(Math.floor(Math.random() * charactersLength))
+      );
+    }
+    return result.join("");
   }
 }
 </script>
@@ -214,7 +228,5 @@ table.table td .add {
   display: none;
 }
 
-.actions{
-  width: 1000px;
-}
+
 </style>
