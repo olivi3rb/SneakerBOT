@@ -1,15 +1,14 @@
 <template>
-  <div class="container-lg">
     <div class="container">
       <div class="table-wrapper">
         <div class="table-title">
           <div class="row">
             <div class="col-sm-8"><h2>Tasks</h2></div>
-            <div class="col-sm-4">
+            <div class="col-sm-12">
               <button type="button" class="btn btn-info add-new">Delete All</button> 
               <button type="button" class="btn btn-info add-new">Start All</button>
               <router-link to="/taskView"><button type="button" class="btn btn-info add-new" 
-                ><i class="fa fa-plus"></i> Add New
+                ><i class="fa fa-plus"></i> Add New Task
               </button></router-link>
             </div>
           </div>
@@ -43,13 +42,11 @@
         </table>
       </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
-
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
@@ -59,24 +56,18 @@ export default class Billing extends Vue {
   private userAgent = require('user-agents');
   private puppeteer = require('puppeteer-extra');
   private StealthPlugin = require('puppeteer-extra-plugin-stealth');
-
   goBot = async (taskObject: any) => {
     console.log("running bot on: ", taskObject);
-
     this.puppeteer.use(this.StealthPlugin());
-
     const browser = await this.puppeteer.launch({
         headless: false,
         defaultViewport: null,
         args: [ '--disable-web-security', '--disable-features=IsolateOrigins,site-per-process']
     });
-
     const page = await browser.newPage();
-
     // new user agent
     await page.setUserAgent(this.userAgent.toString());
   }
-
   mounted() {
     this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
       this.tasks.splice(0);
@@ -104,7 +95,6 @@ export default class Billing extends Vue {
 .table-wrapper {
   margin: auto;
 margin-top: 10%;
-
   width: 100%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);

@@ -1,12 +1,12 @@
 <template>
-  <div class="vue-taskEdit">
-    <div class="inner-block">
+    <div class="container">
+      <div class="table-wrapper">
       <div class="row">
         <div class="col-75">
           <div class="card-container">
             <div class="row">
               <div class="col-50">
-                <h3>Task View</h3>
+                <h3>Add New Task</h3>
 
                 <label for="fname" > Website </label>
                 <select v-model="website">
@@ -14,7 +14,7 @@
                 </select>  
                 
                 <label for="email"><i class="fa fa-user"/> Profile </label>
-                <select v-model="selectedProfile">
+                <select class="dropdown" v-model="selectedProfile">
                   <option v-for="(profs, pos) in billingProfiles" :value="profs" :key="pos"> {{profs.cardName}} </option>
                 </select>  
 
@@ -24,8 +24,8 @@
                 <label for="adr"> Size </label>
                 <input type="text" id="adr" v-model="selectedsize"/>
 
-                <label for="city"> Product </label>
-                <input type="text" id="city" v-model="selectedproduct"/>
+                <label> Product </label>
+                <input type="text" v-model="selectedproduct"/>
 
               </div>
             </div>
@@ -47,7 +47,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
-
 @Component
 export default class TaskView extends Vue {
   readonly $appDB!: FirebaseFirestore;
@@ -60,7 +59,6 @@ export default class TaskView extends Vue {
   private selectedsize = "";
   private atcLink = "";
   private selectedproduct = "";
-
   showMessage(m: string): void {
     this.message = m;
     setTimeout(() => {
@@ -68,7 +66,6 @@ export default class TaskView extends Vue {
       this.message = "";
     }, 5000);
   }
-
   makeid (): string {
     var result = [];
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -78,10 +75,8 @@ export default class TaskView extends Vue {
     }
     return result.join('');
   }
-
   createTask (): void {
     var TID:string = this.makeid()
-
     var task = {
       tid: TID,
       site: this.website,
@@ -91,18 +86,18 @@ export default class TaskView extends Vue {
       atc: this.atcLink,
       status: "idle..."
     }
-
     this.$appDB
       .collection(`users/${this.uid}/tasks`)
       .add(task)
+      .then(() => {
+        this.$router.push({ path: "/tasks" }); 
+      })
       .then(() => {
         console.log("Task: ", task)
         this.showMessage(`Task added successfully!`);
       });
   }
-
   mounted() {
-
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.billingProfiles.splice(0);
       qs.forEach((qds) => {
@@ -130,7 +125,7 @@ export default class TaskView extends Vue {
 </script>
 
 <style scope>
-.vue-addCard .inner-block {
+.table-wrapper {
   margin-top: 10%;
   margin-left: 15%;
   width: 70%;
@@ -140,7 +135,6 @@ export default class TaskView extends Vue {
   border-radius: 15px;
   transition: all 0.3s;
 }
-
 .row {
   display: -ms-flexbox; /* IE10 */
   display: flex;
@@ -148,35 +142,29 @@ export default class TaskView extends Vue {
   flex-wrap: wrap;
   margin: 0 -16px;
 }
-
 .col-25 {
   -ms-flex: 25%; /* IE10 */
   flex: 25%;
 }
-
 .col-50 {
   -ms-flex: 50%; /* IE10 */
   flex: 50%;
 }
-
 .col-75 {
   -ms-flex: 75%; /* IE10 */
   flex: 75%;
 }
-
 .col-25,
 .col-50,
 .col-75 {
   padding: 0 16px;
 }
-
 .card-container {
   background-color: #f2f2f2;
   padding: 5px 20px 15px 20px;
   border: 1px solid lightgrey;
   border-radius: 3px;
 }
-
 input[type="text"] {
   width: 100%;
   margin-bottom: 20px;
@@ -184,18 +172,15 @@ input[type="text"] {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-
 label {
   margin-bottom: 10px;
   display: block;
 }
-
 .icon-container {
   margin-bottom: 20px;
   padding: 7px 0;
   font-size: 24px;
 }
-
 .save-btn {
   background-color: #6441a5;
   color: white;
@@ -207,13 +192,8 @@ label {
   cursor: pointer;
   font-size: 17px;
 }
-
 .save-btn:hover {
   background-color: #493077;
 }
 
-span.price {
-  float: right;
-  color: grey;
-}
 </style>
