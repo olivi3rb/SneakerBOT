@@ -83,17 +83,20 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseAuth } from "@firebase/auth-types";
+
 
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
-
+  readonly $appAuth!: FirebaseAuth;
   private uid = "none";
   private id = {};
   private cardid = {};
   private cardInfo: any[] = [];
 
   mounted() {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.cardInfo.splice(0);
       qs.forEach((qds) => {
@@ -123,6 +126,7 @@ export default class Billing extends Vue {
 
   deleteCard(c: any): void {
     console.log("billing to be deleted: ", c);
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
 
     var d = this.$appDB
       .collection(`users/${this.uid}/billing`)

@@ -67,7 +67,6 @@ export default class Login extends Vue {
   authenticate(): void {
     console.log("olivier");
     this.$appAuth
-
       .signInWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {
         this.showMessage(`Login successful UID ${u.user?.uid}`);

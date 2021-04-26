@@ -63,15 +63,7 @@ import { FirebaseFirestore } from "@firebase/firestore-types";
 @Component
 export default class Leaderboard extends Vue {
   readonly $appDB!: FirebaseFirestore;
-
-  private uid = "none";
-  private cardInfo: any[] = [];
-
-  private billingProfiles: any[] = [];
   private checkouts: any[] = [];
-  private userAgent = require("user-agents");
-  private puppeteer = require("puppeteer-extra");
-  private StealthPlugin = require("puppeteer-extra-plugin-stealth");
   
   mounted() {
     this.$appDB.collection(`/checkout`).onSnapshot((qs) => {

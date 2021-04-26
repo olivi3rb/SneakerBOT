@@ -89,9 +89,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseAuth } from "@firebase/auth-types";
+
 @Component
 export default class TaskView extends Vue {
   readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
   private message = "";
   private uid = "none";
   private billingProfiles: any[] = [];
@@ -135,6 +138,7 @@ export default class TaskView extends Vue {
       atc: this.atcLink,
       status: "idle...",
     };
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB
       .collection(`users/${this.uid}/tasks`)
       .add(task)
@@ -146,7 +150,10 @@ export default class TaskView extends Vue {
         this.showMessage(`Task added successfully!`);
       });
   }
+
   mounted() {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
+    console.log("THIS UID:", this.uid)
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.billingProfiles.splice(0);
       qs.forEach((qds) => {

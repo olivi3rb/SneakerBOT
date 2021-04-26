@@ -114,10 +114,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseAuth } from "@firebase/auth-types";
 
 @Component
 export default class AddCard extends Vue {
   readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
   private message = "";
   private uid = "none";
   private fullname = "";
@@ -145,6 +147,7 @@ export default class AddCard extends Vue {
   }
   //this.$
   saveBilling(): void {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB
       .collection(`users/${this.uid}/billing`)
       .add({

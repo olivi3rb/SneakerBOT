@@ -86,11 +86,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
+import { FirebaseAuth } from "@firebase/auth-types";
 // import { goBot } from "../task"
 
 @Component
 export default class Tasks extends Vue {
   readonly $appDB!: FirebaseFirestore;
+  readonly $appAuth!: FirebaseAuth;
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
@@ -132,6 +134,7 @@ export default class Tasks extends Vue {
 
   deleteTask(c: any): void {
     console.log("task to be deleted: ", c);
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
 
     var d = this.$appDB
       .collection(`users/${this.uid}/tasks`)
@@ -147,6 +150,7 @@ export default class Tasks extends Vue {
   }
 
   mounted() {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
       this.tasks.splice(0);
       qs.forEach((qds) => {
