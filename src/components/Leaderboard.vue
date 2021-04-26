@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr v-for="c in checkouts" :key="c.id">
-            <td>{{ c.profile.bid }}</td>
+            <td>{{ c.profile.profile }}</td>
             <td>{{ c.site }}</td>
             <td>{{ c.item }}</td>
             <td>{{ c.size }}</td>

@@ -22,21 +22,13 @@
               v-model="userPassword"
             />
           </div>
+            <router-link to="/signup" replace><button class="btn btn-dark btn-lg btn-block" @click="authenticate"> Sign In</button></router-link>
 
-   
-            ><button
-              class="btn btn-dark btn-lg btn-block"
-              @click="authenticate"
-            >
-              Sign In
-            </button>
-       
-
-          <p class="create-account text-center">
-            Or
-            <router-link to="/signup" replace>Sign up</router-link>
-            to create an account
-          </p>
+            <p class="create-account text-center">
+              Or
+              <router-link to="/signup" replace>Sign up</router-link>
+              to create an account
+            </p>
 
           <p class="forgot-password text-right mt-2 mb-4">
             <router-link to="/forgot-password">Forgot password ?</router-link>
@@ -72,7 +64,8 @@ export default class Login extends Vue {
       .signInWithEmailAndPassword(this.userEmail, this.userPassword)
       .then((u: UserCredential) => {
         this.showMessage(`Login successful UID ${u.user?.uid}`);
-        this.$router.push({ path: "/billing" });
+        console.log("user logged in uid: ", u.user?.uid)
+        this.$router.push({ path: "/tasks" });
       })
       .catch((err: any) => {
         this.showMessage(`Unable to login ${err}`);

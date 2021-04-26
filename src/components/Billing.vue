@@ -52,7 +52,7 @@
         </thead>
         <tbody>
           <tr v-for="c in cardInfo" :key="c.id">
-            <td>Billing ID: {{ c.cardName }}</td>
+            <td>{{ c.bId }}</td>
             <td>
               Billing Address: {{ c.address }} Email: {{ c.email }} Phone:
               {{ c.phone }}
@@ -95,13 +95,14 @@ export default class Billing extends Vue {
   private cardInfo: any[] = [];
 
   mounted() {
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.cardInfo.splice(0);
       qs.forEach((qds) => {
         if (qds.exists) {
           const billingInfo = qds.data();
           this.cardInfo.push({
-            bId: billingInfo.bId,
+            bId: billingInfo.profile,
             name: billingInfo.name,
             email: billingInfo.email,
             address: billingInfo.address,
@@ -124,6 +125,7 @@ export default class Billing extends Vue {
 
   deleteCard(c: any): void {
     console.log("billing to be deleted: ", c);
+    this.uid = this.$appAuth.currentUser?.uid ?? "none";
 
     var d = this.$appDB
       .collection(`users/${this.uid}/billing`)

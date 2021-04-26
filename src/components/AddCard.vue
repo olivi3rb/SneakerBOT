@@ -103,7 +103,7 @@
                 type="submit"
                 value="Save Card"
                 class="save-btn"
-                @click="saveBilling"
+                @click="saveBilling()"
             /></router-link>
             {{ message }}
           </div>
@@ -150,6 +150,7 @@ export default class AddCard extends Vue {
   //this.$
   saveBilling(): void {
     this.uid = this.$appAuth.currentUser?.uid ?? "none";
+    console.log("billing saved?", this.uid)
     this.$appDB
       .collection(`users/${this.uid}/billing`)
       .add({

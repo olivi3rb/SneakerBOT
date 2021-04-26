@@ -63,7 +63,7 @@
             <td>{{ c.site }}</td>
             <td>{{ c.item }}</td>
             <td>{{ c.size }}</td>
-            <td>{{ c.profile.cardName }}</td>
+            <td>{{ c.profile.profile }}</td>
             <td>{{ c.status }}</td>
             <td class="actions">
               <a class="play" title="Play" data-toggle="tooltip" v-on:click="bot(c)"><i class="fa fa-play" aria-hidden="true"></i></a>

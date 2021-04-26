@@ -56,7 +56,7 @@
                     :value="profs"
                     :key="pos"
                   >
-                    {{ profs.cardName }}
+                    {{ profs.profile }}
                   </option>
                 </select>
                 <br />
@@ -170,6 +170,7 @@ export default class TaskView extends Vue {
             expMonth: billingInfo.expMonth,
             expYear: billingInfo.expYear,
             cvv: billingInfo.cvv,
+            profile: billingInfo.profile,
           });
         }
       });
