@@ -84,34 +84,17 @@
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
 import { FirebaseAuth } from "@firebase/auth-types";
-<<<<<<< Updated upstream
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
->>>>>>> Stashed changes
 
 @Component
 export default class Billing extends Vue {
   readonly $appDB!: FirebaseFirestore;
-<<<<<<< Updated upstream
   readonly $appAuth!: FirebaseAuth;
-=======
-<<<<<<< HEAD
-   readonly $appAuth!: FirebaseAuth;
-=======
-  readonly $appAuth!: FirebaseAuth;
->>>>>>> 8b00ee8ef4a92af194cb0176bb8fd31185dc3dc5
->>>>>>> Stashed changes
   private uid = "none";
   private id = {};
   private cardid = {};
   private cardInfo: any[] = [];
 
   mounted() {
-    this.uid = this.$appAuth.currentUser?.uid ?? "none";
     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
       this.cardInfo.splice(0);
       qs.forEach((qds) => {
@@ -141,7 +124,6 @@ export default class Billing extends Vue {
 
   deleteCard(c: any): void {
     console.log("billing to be deleted: ", c);
-    this.uid = this.$appAuth.currentUser?.uid ?? "none";
 
     var d = this.$appDB
       .collection(`users/${this.uid}/billing`)
