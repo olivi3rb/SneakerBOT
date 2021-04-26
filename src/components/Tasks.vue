@@ -31,10 +31,10 @@
         <div class="row">
           <div class="col-sm-8"><h2>Tasks</h2></div>
           <div class="col-sm-12">
-            <button type="button" class="btn btn-info add-new">
+            <button type="button" class="btn btn-info add-new"  v-on:click="deleteAll()">
               Delete All
             </button>
-            <button type="button" class="btn btn-info add-new">
+            <button type="button" class="btn btn-info add-new" v-on:click="startAll()">
               Start All
             </button>
             <router-link to="/taskView"
@@ -67,7 +67,6 @@
             <td>{{ c.status }}</td>
             <td class="actions">
               <a class="play" title="Play" data-toggle="tooltip" v-on:click="bot(c)"><i class="fa fa-play" aria-hidden="true"></i></a>
-              <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" aria-hidden="true"></i></a>
               <a
                 class="delete"
                 title="Delete"
@@ -96,6 +95,23 @@ export default class Tasks extends Vue {
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
+
+  deleteAll () {
+    console.log("deleting all tasks")
+    this.tasks.forEach(function (item, index) {
+      console.log("for each",item, index)
+      item.status = "DELETE ALL!"
+      // deleteTask(item)
+    });
+  }
+
+  startAll () {
+    this.tasks.forEach(function (item, index) {
+      item.status = "START ALL!"
+      // bot(item)
+    });
+  }
+
 
   bot(taskObject: any): void {
     // goBot(taskObject);

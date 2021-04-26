@@ -47,7 +47,7 @@
             <th>BID</th>
             <th>Details</th>
             <th>Card Info</th>
-            <th class="actions">Acions</th>
+            <th class="actions">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -62,9 +62,6 @@
               Exp Date: {{ c.expMonth }}/{{ c.expYear }}
             </td>
             <td>
-              <a class="edit" title="Edit" data-toggle="tooltip"
-                ><i class="fa fa-pencil" aria-hidden="true"></i
-              ></a>
               <a
                 class="delete"
                 title="Delete"
