@@ -153,7 +153,7 @@ export default class AddCard extends Vue {
 }
 </script>
 
-<style scope>
+<style>
 .table-wrapper {
   margin: auto;
   margin-top: 10%;

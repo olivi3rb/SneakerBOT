@@ -10,6 +10,7 @@
   "dependencies": {
     "@firebase/firestore-types": "^2.2.0",
     "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.4.1",
     "core-js": "^3.6.5",
     "firebase": "^8.4.1",
     "puppeteer-extra": "^3.1.18",

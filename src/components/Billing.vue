@@ -44,7 +44,7 @@
             <th>Card Name</th>
             <th>Address</th>
             <th>E-mail</th>
-            <th>Actions</th>
+            <th class="actions">Acions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,21 +52,17 @@
             <td>{{ c.cardName }}</td>
             <td>{{ c.address }}</td>
             <td>{{ c.email }}</td>
-            <td>
-              <button
-                class="btn btn-primary edit"
-                title="Edit"
-                data-toggle="tooltip"
+            <td >
+              <a class="edit" title="Edit" data-toggle="tooltip"
+                ><i class="fa fa-pencil" aria-hidden="true"></i></a
               >
-                Edit
-              </button>
-              <button
-                class="btn btn-danger delete"
+              <a
+                class="delete"
                 title="Delete"
-                @click="deleteCard(c)"
+                data-toggle="tooltip"
+                v-on:click="deleteCard(c)"
+                ><i class="fa fa-trash" aria-hidden="true"></i></a
               >
-                Delete
-              </button>
             </td>
           </tr>
         </tbody>
@@ -178,9 +174,9 @@ table.table th i {
   margin: 0 5px;
   cursor: pointer;
 }
-table.table th:last-child {
+/* table.table th:last-child {
   width: 100px;
-}
+} */
 table.table td a {
   cursor: pointer;
   display: inline-block;
@@ -216,5 +212,9 @@ table.table .form-control.error {
 }
 table.table td .add {
   display: none;
+}
+
+.actions{
+  width: 1000px;
 }
 </style>

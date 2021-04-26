@@ -64,16 +64,19 @@
             <td>{{ c.size }}</td>
             <td>{{ c.profile.cardName }}</td>
             <td>{{ c.status }}</td>
-            <td>
+            <td class="actions">
+                            <a class="play" title="Play" data-toggle="tooltip"
+                ><i class="fa fa-play" aria-hidden="true"></i></a
+              >
               <a class="edit" title="Edit" data-toggle="tooltip"
-                ><i class="material-icons">&#xE254;</i></a
+                ><i class="fa fa-pencil" aria-hidden="true"></i></a
               >
               <a
                 class="delete"
                 title="Delete"
                 data-toggle="tooltip"
                 v-on:click="deleteTask(c)"
-                ><i class="material-icons">&#xE872;</i></a
+                ><i class="fa fa-trash" aria-hidden="true"></i></a
               >
             </td>
           </tr>
@@ -158,17 +161,7 @@ export default class Tasks extends Vue {
   margin: 6px 0 0;
   font-size: 22px;
 }
-.table-title .add-new {
-  float: right;
-  height: 30px;
-  font-weight: bold;
-  font-size: 12px;
-  text-shadow: none;
-  min-width: 100px;
-  border-radius: 50px;
-  line-height: 13px;
-  background-color: #6441a5;
-}
+
 .table-title .add-new i {
   margin-right: 4px;
 }
@@ -193,7 +186,7 @@ table.table td a {
   margin: 0 5px;
   min-width: 24px;
 }
-table.table td a.add {
+table.table td a.play {
   color: #27c46b;
 }
 table.table td a.edit {
@@ -220,7 +213,7 @@ table.table .form-control {
 table.table .form-control.error {
   border-color: #f50000;
 }
-table.table td .add {
-  display: none;
+table.table .actions {
+  width: 1000px;
 }
 </style>
