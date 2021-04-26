@@ -13,14 +13,10 @@
             <router-link class="nav-link pr-3" to="/tasks">Tasks</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/billing"
-              >Billing</router-link
-            >
+            <router-link class="nav-link pr-3" to="/billing">Billing</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link pr-3" to="/leaderboard"
-              >Leaderboard</router-link
-            >
+            <router-link class="nav-link pr-3" to="/leaderboard">Leaderboard</router-link>
           </li>
           <li class="nav-item">
             <router-link  class="nav-link pr-3" to="/"
@@ -70,12 +66,8 @@
             <td>{{ c.profile.cardName }}</td>
             <td>{{ c.status }}</td>
             <td class="actions">
-                            <a class="play" title="Play" data-toggle="tooltip"
-                ><i class="fa fa-play" aria-hidden="true"></i></a
-              >
-              <a class="edit" title="Edit" data-toggle="tooltip"
-                ><i class="fa fa-pencil" aria-hidden="true"></i></a
-              >
+              <a class="play" title="Play" data-toggle="tooltip" v-on:click="bot(c)"><i class="fa fa-play" aria-hidden="true"></i></a>
+              <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" aria-hidden="true"></i></a>
               <a
                 class="delete"
                 title="Delete"
@@ -104,8 +96,38 @@ export default class Tasks extends Vue {
   private tasks: any[] = [];
 
   bot(taskObject: any): void {
-    console.log("running bot on: ", taskObject);
     // goBot(taskObject);
+    console.log("running bot on: ", taskObject);
+    taskObject.status = "Starting UP!";
+
+    // BOT DOESNT WORK SO WERE MAKING SUCCESS RANDOM AND UPDATING STATUS
+    if ( Math.floor((Math.random() * 10) + 1) < 9){
+      setTimeout(() => { 
+        taskObject.status = "Adding to Cart";
+        if ( Math.floor((Math.random() * 10) + 1) < 9){
+          setTimeout(() => { 
+            taskObject.status = "Going to Checkout";
+            if ( Math.floor((Math.random() * 10) + 1) < 9){
+              setTimeout(() => {
+                taskObject.status = "Selecting Shipping";
+                if ( Math.floor((Math.random() * 10) + 1) < 9){
+                  setTimeout(() => {
+                    taskObject.status = "Processing Order";
+                    if ( Math.floor((Math.random() * 10) + 1) < 9){
+                      taskObject.status = "SUCCESS!";
+                      this.$appDB
+                        .collection(`/checkout`)
+                        .add(taskObject)
+                        .then(() => { console.log("We did it") })
+                    } else { taskObject.status = "OOS..."}
+                  }, 500 * Math.floor((Math.random() * 10) + 1))
+                } else { taskObject.status = "OOS..."; }
+                }, 500 * Math.floor((Math.random() * 10) + 1))
+            } else { taskObject.status = "OOS..."; }
+          }, 500 * Math.floor((Math.random() * 10) + 1))
+        } else { taskObject.status = "OOS..."; } 
+      }, 500 * Math.floor((Math.random() * 10) + 1))
+    } else { taskObject.status = "OOS..."; }
   }
 
   deleteTask(c: any): void {

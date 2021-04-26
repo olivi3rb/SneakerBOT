@@ -38,33 +38,17 @@
         <thead>
           <tr>
             <th>User</th>
-            <th>Item Purchased</th>
-            <th>Status</th>
-            <!-- <th>Actions</th> -->
+            <th>Site</th>
+            <th>Product</th>
+            <th>Size</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="c in cardInfo" :key="c.id">
-            <td>{{ c.profile }}</td>
+          <tr v-for="c in checkouts" :key="c.id">
+            <td>{{ c.profile.bid }}</td>
+            <td>{{ c.site }}</td>
             <td>{{ c.item }}</td>
-            <td>{{ c.status }}</td>
-            <td>
-              <button
-                class="btn btn-primary edit"
-                title="Edit"
-                data-toggle="tooltip"
-              >
-                Edit
-              </button>
-
-              <button
-                class="btn btn-danger delete"
-                title="Delete"
-                @click="deleteCard(c)"
-              >
-                Delete
-              </button>
-            </td>
+            <td>{{ c.size }}</td>
           </tr>
         </tbody>
       </table>
@@ -84,32 +68,18 @@ export default class Leaderboard extends Vue {
   private cardInfo: any[] = [];
 
   private billingProfiles: any[] = [];
-  private tasks: any[] = [];
+  private checkouts: any[] = [];
   private userAgent = require("user-agents");
   private puppeteer = require("puppeteer-extra");
   private StealthPlugin = require("puppeteer-extra-plugin-stealth");
-  goBot = async (taskObject: any) => {
-    console.log("running bot on: ", taskObject);
-    this.puppeteer.use(this.StealthPlugin());
-    const browser = await this.puppeteer.launch({
-      headless: false,
-      defaultViewport: null,
-      args: [
-        "--disable-web-security",
-        "--disable-features=IsolateOrigins,site-per-process",
-      ],
-    });
-    const page = await browser.newPage();
-    // new user agent
-    await page.setUserAgent(this.userAgent.toString());
-  };
+  
   mounted() {
-    this.$appDB.collection(`users/${this.uid}/tasks`).onSnapshot((qs) => {
-      this.tasks.splice(0);
+    this.$appDB.collection(`/checkout`).onSnapshot((qs) => {
+      this.checkouts.splice(0);
       qs.forEach((qds) => {
         if (qds.exists) {
           const taskinfo = qds.data();
-          this.tasks.push({
+          this.checkouts.push({
             tid: taskinfo.tid,
             site: taskinfo.site,
             profile: taskinfo.profile,
@@ -121,33 +91,8 @@ export default class Leaderboard extends Vue {
         }
       });
     });
-    console.log("tasks: ", this.tasks);
+    console.log("tasks: ", this.checkouts);
   }
-
-  //   mounted() {
-  //     this.$appDB.collection(`users/${this.uid}/billing`).onSnapshot((qs) => {
-  //       this.cardInfo.splice(0);
-  //       qs.forEach((qds) => {
-  //         if (qds.exists) {
-  //           const billingInfo = qds.data();
-  //           this.cardInfo.push({
-  //             name: billingInfo.name,
-  //             email: billingInfo.email,
-  //             address: billingInfo.address,
-  //             // city: this.city,
-  //             // state: this.state,
-  //             // zip: this.zip,
-  //             cardName: billingInfo.cardName,
-  //             // cardNumber: this.cardNumber,
-  //             // expMonth: this.expMonth,
-  //             // expYear: this.expYear,
-  //             // cvv: this.cvv,
-  //           });
-  //         }
-  //       });
-  //     });
-  //     console.log(this.cardInfo);
-  //   }
 }
 </script>
 
