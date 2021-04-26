@@ -86,32 +86,19 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FirebaseFirestore } from "@firebase/firestore-types";
+// import { goBot } from "../task"
+
 @Component
-export default class Billing extends Vue {
+export default class Tasks extends Vue {
   readonly $appDB!: FirebaseFirestore;
   private uid = "none";
   private billingProfiles: any[] = [];
   private tasks: any[] = [];
 
-  private userAgent = require("user-agents");
-  private puppeteer = require("puppeteer-extra");
-  private StealthPlugin = require("puppeteer-extra-plugin-stealth");
-
-  goBot = async (taskObject: any) => {
+  bot(taskObject: any): void {
     console.log("running bot on: ", taskObject);
-    this.puppeteer.use(this.StealthPlugin());
-    const browser = await this.puppeteer.launch({
-      headless: false,
-      defaultViewport: null,
-      args: [
-        "--disable-web-security",
-        "--disable-features=IsolateOrigins,site-per-process",
-      ],
-    });
-    const page = await browser.newPage();
-    // new user agent
-    await page.setUserAgent(this.userAgent.toString());
-  };
+    // goBot(taskObject);
+  }
 
   deleteTask(c: any): void {
     console.log("task to be deleted: ", c);

@@ -128,13 +128,6 @@ export default class Billing extends Vue {
         doc.ref.delete();
       });
     });
-
-    // this.$appDB
-    // .collection(`/billing`).doc(c).delete().then(() => {
-    //     console.log("Document successfully deleted!");
-    // }).catch((error) => {
-    //     console.error("Error removing document: ", error);
-    // }); console.log();
   }
 }
 </script>

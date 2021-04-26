@@ -1,11 +1,25 @@
-// const puppeteer = require('puppeteer');
-var userAgent = require('user-agents');
-const puppeteer = require('puppeteer-extra');
+// // const puppeteer = require('puppeteer');
+// const userAgent = await import('user-agents');
+// const puppeteer = await import('puppeteer-extra');
 
-// add stealth plugin and use defaults (all evasion techniques)
-const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+// // add stealth plugin and use defaults (all evasion techniques)
+// const StealthPlugin = await import('puppeteer-extra-plugin-stealth');
 
-const goBot = async (website, atclink, billing, size, item) => {
+async function goBot (tObj) {
+    // const puppeteer = require('puppeteer');
+    const userAgent = await import('user-agents');
+    const puppeteer = await import('puppeteer-extra');
+
+    // add stealth plugin and use defaults (all evasion techniques)
+    const StealthPlugin = await import('puppeteer-extra-plugin-stealth');
+
+    // website, atclink, billing, size, item
+
+    var website = tObj.site
+    var atclink = tObj.atc
+    var billing = tObj.profile
+    var size = tObj.size
+    var item = tObj.item
 
     puppeteer.use(StealthPlugin());
 
@@ -25,6 +39,7 @@ const goBot = async (website, atclink, billing, size, item) => {
 
     
     //select site link
+    var site = "";
     if (website == "kith") {
         site = "https://kith.com"
     }
@@ -164,31 +179,12 @@ const goBot = async (website, atclink, billing, size, item) => {
 
     console.log("checking out!");
 
-    updateLeaderbaord = () => {
-        // $appDB.collection(`users/${this.uid}/checkouts`).add({
-        //     uid: "123",
-        //     item: item,
-        //     site: website
-        //     })
-        //   .then(() => {
-        //     this.showMessage(`Card saved successfully!`);
-        //   });
-        db.collection("cities").add({
-            name: "Tokyo",
-            country: "Japan"
-        });
-    }
-
-    updateLeaderbaord();
-
     //pay now
     await page.click(continueButton);
-    // await page.waitForNavigation(); // is this necesary?
-    // await browser.close();
-};
+}
 
-goBot('https://kith.com/', 'cart/add?id=39246106656896')
+// goBot('https://kith.com/', 'cart/add?id=39246106656896')
 
 module.exports = goBot;
 
-
+export {goBot};

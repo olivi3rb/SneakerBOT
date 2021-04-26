@@ -39,11 +39,11 @@ const myRoutes: Array<RouteConfig> = [
     component: AddCard,
   },
 
-  {
-    name: "EditCard",
-    path: "/editCard",
-    component: EditCard,
-  },
+  // {
+  //   name: "EditCard",
+  //   path: "/editCard",
+  //   component: EditCard,
+  // },
 
   {
     name: "TaskView",
